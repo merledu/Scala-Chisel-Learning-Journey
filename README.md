@@ -16,8 +16,6 @@ SBT is the most common built tool in the Scala community. You can download it [h
 
 ### How to get started
 
-#### Clone the repository
-
 Fork this repository on your own individual profiles. After forking clone the repository and run:
 
 ```sh
