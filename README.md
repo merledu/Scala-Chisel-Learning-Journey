@@ -18,6 +18,10 @@ sudo apt-get install openjdk-11-jre
 
 SBT is the most common built tool in the Scala community. You can download it [here](https://www.scala-sbt.org/download.html).  
 
+#### VERILATOR
+```bash
+sudo apt-get install verilator
+```
 
 ### How to get started
 
