@@ -10,12 +10,18 @@ Start by setting up the working enviroment
 
 #### JDK 8 or newer
 
-We recommend LTS releases Java 8 and Java 11. You can install the JDK as recommended by your operating system, or use the prebuilt binaries from [AdoptOpenJDK](https://adoptopenjdk.net/).
-
+```bash
+sudo apt-get install openjdk-11-jdk
+sudo apt-get install openjdk-11-jre
+```
 #### SBT 
 
 SBT is the most common built tool in the Scala community. You can download it [here](https://www.scala-sbt.org/download.html).  
 
+#### VERILATOR
+```bash
+sudo apt-get install verilator
+```
 
 ### How to get started
 
