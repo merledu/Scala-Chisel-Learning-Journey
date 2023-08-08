@@ -1,5 +1,5 @@
 ### Project Specific stuff
-test_run_dir/*
+null/
 .vscode
 ### XilinxISE template
 # intermediate build files
