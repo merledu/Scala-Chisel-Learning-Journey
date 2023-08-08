@@ -1,0 +1,159 @@
+excersice 2 :
+
+*module* :  
+
+package prac
+
+import chisel3._
+
+
+class Counter ( counterBits : UInt ) extends Module {
+val io = IO (new Bundle {
+    val result = Output ( Bool () )
+})
+val max = (1.U<<counterBits ) - 1.U
+val count = RegInit (0.U (16.W ) )
+when(count(counterBits) === 1.U ) {
+    println(s"value of counter bits :  $counterBits")
+    count := 0.U
+    io.result:= (1.B)
+    
+} .otherwise {
+    count := count + 1.U
+    io.result:=(0.B)
+}
+
+println ( s" counter created with max value $max ")
+}
+----------------------------------------------------------
+*Tester : 
+
+
+package prac
+
+import chisel3._
+import chisel3.tester._
+import org.scalatest.FreeSpec
+import chisel3.experimental.BundleLiterals._
+
+class Countertester extends FreeSpec with ChiselScalatestTester{
+    "Countertester file " in {
+        test(new Counter(2.U)){ a=>
+        a.clock.step(12)
+        a.io.result.expect(0.B)
+
+        }
+    }
+}
+
+----------------------------------------------------------
+Excersice 3 
+----------------------------------------------------------
+*module : 
+
+package prac
+import chisel3._
+
+class Counter2 ( size:Int , maxValue:Int ) extends Module {
+val io = IO (new Bundle {
+    val result = Output ( Bool () )
+})
+// 'genCounter ' with counter size 'n'
+def genCounter ( n:Int , max:Int ) = {
+    val count = RegInit (0.U ( n .W ) )
+    when ( count === max.asUInt ) {
+        count := 0.U
+    } 
+    .otherwise {
+        count := count + 1.U
+    }
+count
+}
+// genCounter instantiation
+val counter1 = genCounter ( size , maxValue )
+    io.result := counter1 ( size -1)
+}
+//println  (( new chisel3.stage.ChiselStage ).emitVerilog(new Counter2(8 , 255.U ) ) )
+
+
+*Tester*
+package prac
+
+import chisel3._
+import chisel3.tester._
+import org.scalatest.FreeSpec
+import chisel3.experimental.BundleLiterals._
+
+class Counter2tester extends FreeSpec with ChiselScalatestTester{
+    "Counter2tester file " in {
+        test(new Counter2(4, 4)){ a=>
+        a.clock.step(12)
+        a.io.result.expect(0.B)
+
+        }
+    }
+}
+
+
+------------------------------------------------------------
+*TASK 2 *
+------------------------------------------------------------
+Module:
+
+package prac
+import chisel3._
+import chisel3.util._
+import java.io.File
+
+class counter_up_down ( n : Int ) extends Module {
+val io = IO (new Bundle {
+    val data_in = Input ( UInt ( n . W ) )
+    val reload = Input ( Bool () )
+    val out = Output ( Bool () )
+})
+
+
+def updowncounter(max:Int) = {
+    val check = RegInit(false.B)
+    val counter = RegInit(0.U(5.W))
+    when(check) {
+      counter := counter - 1.U
+    }
+    .otherwise {
+      counter := counter + 1.U
+    }
+
+    when(counter === (max-1).asUInt) {
+      check := true.B
+      io.out := true.B
+    }
+    .otherwise{
+        io.out:=false.B
+    }
+    
+counter
+}
+
+val countercheck = updowncounter(n)
+}
+
+---------------------------------------------------------
+Tester:
+
+package prac
+
+import chisel3._
+import chisel3.tester._
+import org.scalatest.FreeSpec
+import chisel3.experimental.BundleLiterals._
+
+class UpDownCounterTester extends FreeSpec with ChiselScalatestTester{
+    "updownCounter2tester file " in {
+        test(new counter_up_down(4)){ a=>
+        a.clock.step(12)
+        a.io.out.expect(0.B)
+
+        }
+    }
+}
+

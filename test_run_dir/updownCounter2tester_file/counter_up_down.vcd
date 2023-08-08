@@ -1,0 +1,195 @@
+$date
+2023-08-07T22:34+0000
+$end
+$version
+0.2
+$end
+$comment
+
+$end
+$timescale 1ns  $end
+$scope module counter_up_down $end
+ $var wire 1 ! io_out $end
+ $var wire 4 " io_data_in $end
+ $var wire 6 # _countercheck_counter_T $end
+ $var wire 5 $ _countercheck_counter_T_3 $end
+ $var wire 1 % countercheck_check $end
+ $var wire 1 & _GEN_1 $end
+ $var wire 1 ' clock $end
+ $var wire 6 ( _countercheck_counter_T_2 $end
+ $var wire 1 ) _countercheck_T $end
+ $var wire 1 * io_reload $end
+ $var wire 5 + _GEN_0 $end
+ $var wire 5 , countercheck $end
+ $var wire 1 - reset $end
+ $var wire 5 . _countercheck_counter_T_1 $end
+$upscope $end
+$enddefinitions $end
+$dumpvars
+0%
+b000000 (
+0&
+b00000 $
+0-
+0'
+b00000 ,
+b0000 "
+b000000 #
+0!
+b00000 .
+0)
+0*
+b00000 +
+$end
+#0
+1-
+b11111 .
+b111111 #
+b00001 $
+b00001 +
+b000001 (
+#1
+1'
+#6
+0-
+0'
+#11
+b00000 .
+b000000 #
+1'
+b00010 $
+b00010 +
+b000010 (
+b00001 ,
+#16
+0'
+#21
+b00001 .
+b000001 #
+1'
+b00011 $
+b00011 +
+b000011 (
+b00010 ,
+#26
+0'
+#31
+1!
+b00010 .
+1&
+b000010 #
+1'
+b00100 $
+b00100 +
+b000100 (
+b00011 ,
+1)
+#36
+0'
+#41
+0!
+1%
+b00011 .
+b000011 #
+1'
+b00101 $
+b00011 +
+b000101 (
+b00100 ,
+0)
+#46
+0'
+#51
+1!
+b00010 .
+b000010 #
+1'
+b00100 $
+b00010 +
+b000100 (
+b00011 ,
+1)
+#56
+0'
+#61
+0!
+b00001 .
+b000001 #
+1'
+b00011 $
+b00001 +
+b000011 (
+b00010 ,
+0)
+#66
+0'
+#71
+b00000 .
+b000000 #
+1'
+b00010 $
+b00000 +
+b000010 (
+b00001 ,
+#76
+0'
+#81
+b11111 .
+b111111 #
+1'
+b00001 $
+b11111 +
+b000001 (
+b00000 ,
+#86
+0'
+#91
+b11110 .
+b011110 #
+1'
+b00000 $
+b11110 +
+b100000 (
+b11111 ,
+#96
+0'
+#101
+b11101 .
+b011101 #
+1'
+b11111 $
+b11101 +
+b011111 (
+b11110 ,
+#106
+0'
+#111
+b11100 .
+b011100 #
+1'
+b11110 $
+b11100 +
+b011110 (
+b11101 ,
+#116
+0'
+#121
+b11011 .
+b011011 #
+1'
+b11101 $
+b11011 +
+b011101 (
+b11100 ,
+#126
+0'
+#131
+b11010 .
+b011010 #
+1'
+b11100 $
+b11010 +
+b011100 (
+b11011 ,
+#136
+0'
