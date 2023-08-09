@@ -1,0 +1,29 @@
+[
+  {
+    "class":"firrtl.stage.FirrtlFileAnnotation",
+    "file":"test_run_dir\\ex2_lab2_Tester\\MuxLookup.lo.fir"
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~MuxLookup|MuxLookup>io_out",
+    "sources":[
+      "~MuxLookup|MuxLookup>io_in7",
+      "~MuxLookup|MuxLookup>io_in3",
+      "~MuxLookup|MuxLookup>io_sel",
+      "~MuxLookup|MuxLookup>io_in6",
+      "~MuxLookup|MuxLookup>io_in2",
+      "~MuxLookup|MuxLookup>io_in5",
+      "~MuxLookup|MuxLookup>io_in4",
+      "~MuxLookup|MuxLookup>io_in1",
+      "~MuxLookup|MuxLookup>io_in0"
+    ]
+  },
+  {
+    "class":"firrtl.EmitCircuitAnnotation",
+    "emitter":"firrtl.LowFirrtlEmitter"
+  },
+  {
+    "class":"firrtl.transforms.BlackBoxTargetDirAnno",
+    "targetDir":"test_run_dir\\ex2_lab2_Tester"
+  }
+]
