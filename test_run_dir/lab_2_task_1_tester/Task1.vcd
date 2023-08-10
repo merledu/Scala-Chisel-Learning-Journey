@@ -1,0 +1,71 @@
+$date
+2023-08-10T21:26+0000
+$end
+$version
+0.2
+$end
+$comment
+
+$end
+$timescale 1ns  $end
+$scope module Task1 $end
+ $var wire 32 ! io_out $end
+ $var wire 5 " _io_out_T_8 $end
+ $var wire 1 # _io_out_T_2 $end
+ $var wire 1 $ io_s2 $end
+ $var wire 1 % _io_out_T_5 $end
+ $var wire 1 & _io_out_T_4 $end
+ $var wire 5 ' _io_out_T_7 $end
+ $var wire 1 ( _io_out_T_1 $end
+ $var wire 1 ) clock $end
+ $var wire 1 * io_s1 $end
+ $var wire 3 + select $end
+ $var wire 5 , _io_out_T_9 $end
+ $var wire 1 - _io_out_T_3 $end
+ $var wire 5 . _io_out_T_6 $end
+ $var wire 3 / _io_out_T $end
+ $var wire 1 0 reset $end
+ $var wire 1 1 io_s0 $end
+$upscope $end
+$enddefinitions $end
+$dumpvars
+0%
+0&
+0-
+b000 +
+b00000 ,
+b00000000000000000000000000000000 !
+b00000 '
+00
+b00000 .
+0(
+01
+0)
+0#
+0*
+b00000 "
+b000 /
+0$
+$end
+#0
+10
+b00001 "
+b00001 .
+1#
+b00001 '
+#1
+1)
+#6
+b00000000000000000000000000011000 !
+00
+0-
+1%
+b11000 "
+11
+b11000 .
+0#
+1*
+b11000 '
+b011 +
+b11000 ,
+0)
