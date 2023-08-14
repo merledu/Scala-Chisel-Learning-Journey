@@ -13,7 +13,7 @@ val in4 = Input ( Bool () )
 val in5 = Input ( Bool () )
 val in6 = Input ( Bool () )
 val in7 = Input ( Bool () )
-val sel = Input ( UInt (3. W ) )
+val sel = Input ( UInt (3.W ) )
 val out = Output ( Bool () )
 })
 
