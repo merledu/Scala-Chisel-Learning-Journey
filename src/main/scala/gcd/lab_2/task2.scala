@@ -39,6 +39,7 @@ class task2 extends Module {
         (2.U) -> Mux(io.shift_type , io.in(1) , 0.B ),
         (3.U) -> Mux(io.shift_type , io.in(2) , 0.B )
     ))
+    //changes
 
 
 
