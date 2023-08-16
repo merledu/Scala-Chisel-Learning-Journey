@@ -1,0 +1,21 @@
+[
+  {
+    "class":"firrtl.stage.FirrtlFileAnnotation",
+    "file":"test_run_dir\\Lab_3_Task_2_Tester_file\\L3Task2.lo.fir"
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~L3Task2|L3Task2>io_immd_se",
+    "sources":[
+      "~L3Task2|L3Task2>io_instr"
+    ]
+  },
+  {
+    "class":"firrtl.EmitCircuitAnnotation",
+    "emitter":"firrtl.LowFirrtlEmitter"
+  },
+  {
+    "class":"firrtl.transforms.BlackBoxTargetDirAnno",
+    "targetDir":"test_run_dir\\Lab_3_Task_2_Tester_file"
+  }
+]
