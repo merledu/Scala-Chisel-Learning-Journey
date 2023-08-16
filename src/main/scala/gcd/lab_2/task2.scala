@@ -29,12 +29,15 @@ class task2 extends Module {
     io.out(2) := MuxLookup(select, false.B, Array(
         (0.U) -> io.in(2),
         (1.U) -> io.in(3),
-        (2.U) -> Mux(io.shift_type , io.in(0) , 0.B)
-        //(3.U) -> Mux(io.shift_type , io.in(1) , 0.B )
+        (2.U) -> Mux(io.shift_type , io.in(0) , 0.B),
+        (3.U) -> Mux(io.shift_type , io.in(1) , 0.B )
     )
     )
     io.out(3) := MuxLookup(select , false.B , Array(
-        (0.U) -> io.in(3)
+        (0.U) -> io.in(3),
+        (1.U) -> Mux(io.shift_type , io.in(0) , 0.B),
+        (2.U) -> Mux(io.shift_type , io.in(1) , 0.B ),
+        (3.U) -> Mux(io.shift_type , io.in(2) , 0.B )
     ))
 
 

@@ -5,6 +5,32 @@
   },
   {
     "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~task2|task2>io_out_2",
+    "sources":[
+      "~task2|task2>io_shift_type",
+      "~task2|task2>io_in_1",
+      "~task2|task2>io_sel_1",
+      "~task2|task2>io_sel_0",
+      "~task2|task2>io_in_0",
+      "~task2|task2>io_in_3",
+      "~task2|task2>io_in_2"
+    ]
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~task2|task2>io_out_3",
+    "sources":[
+      "~task2|task2>io_shift_type",
+      "~task2|task2>io_in_2",
+      "~task2|task2>io_sel_1",
+      "~task2|task2>io_sel_0",
+      "~task2|task2>io_in_1",
+      "~task2|task2>io_in_3",
+      "~task2|task2>io_in_0"
+    ]
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
     "sink":"~task2|task2>io_out_0",
     "sources":[
       "~task2|task2>io_in_3",
@@ -13,6 +39,19 @@
       "~task2|task2>io_sel_0",
       "~task2|task2>io_in_1",
       "~task2|task2>io_in_0"
+    ]
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~task2|task2>io_out_1",
+    "sources":[
+      "~task2|task2>io_shift_type",
+      "~task2|task2>io_in_0",
+      "~task2|task2>io_in_3",
+      "~task2|task2>io_sel_1",
+      "~task2|task2>io_sel_0",
+      "~task2|task2>io_in_2",
+      "~task2|task2>io_in_1"
     ]
   },
   {
