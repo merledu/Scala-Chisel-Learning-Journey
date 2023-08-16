@@ -1,0 +1,24 @@
+[
+  {
+    "class":"firrtl.stage.FirrtlFileAnnotation",
+    "file":"test_run_dir\\Lab_3_Task_1_Tester_file\\Ltask1.lo.fir"
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~Ltask1|Ltask1>io_br_taken",
+    "sources":[
+      "~Ltask1|Ltask1>io_fnct3",
+      "~Ltask1|Ltask1>io_branch",
+      "~Ltask1|Ltask1>io_arg_x",
+      "~Ltask1|Ltask1>io_arg_y"
+    ]
+  },
+  {
+    "class":"firrtl.EmitCircuitAnnotation",
+    "emitter":"firrtl.LowFirrtlEmitter"
+  },
+  {
+    "class":"firrtl.transforms.BlackBoxTargetDirAnno",
+    "targetDir":"test_run_dir\\Lab_3_Task_1_Tester_file"
+  }
+]
