@@ -1,4 +1,4 @@
-// See README.md for license details.
+  // See README.md for license details.
 
 ThisBuild / scalaVersion     := "2.12.13"
 ThisBuild / version          := "0.1.0"
@@ -7,10 +7,13 @@ ThisBuild / organization     := "com.github.merledu"
 lazy val root = (project in file("."))
   .settings(
     name := "Scala-Chisel-Learning-Journey",
+    libraryDependencies += ("edu.berkeley.cs" %% "chiseltest" % "0.3.2"),
     libraryDependencies ++= Seq(
       "edu.berkeley.cs" %% "chisel3" % "3.4.3",
       "edu.berkeley.cs" %% "chiseltest" % "0.3.3" % "test"
+
     ),
+
     scalacOptions ++= Seq(
       "-Xsource:2.11",
       "-language:reflectiveCalls",

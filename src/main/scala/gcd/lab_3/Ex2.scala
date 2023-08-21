@@ -44,8 +44,7 @@ class Ex2 extends Module with Config {
     Mux( io . alu_Op (1) , io . in_B ( XLEN -1) , io . in_A ( XLEN -1) ) )
   val shamt = io . in_B (4 ,0) . asUInt
   val shin = Mux( io . alu_Op (3) , io . in_A , Reverse ( io . in_A ) )
-  val shiftr = ( Cat ( io . alu_Op (0) && shin ( XLEN -1) , shin ).asSInt >> shamt ) (
-    XLEN -1 , 0)
+  val shiftr = ( Cat ( io . alu_Op (0) && shin ( XLEN -1),shin ).asSInt >> shamt )(XLEN -1 , 0)
   val shiftl = Reverse ( shiftr )
 
   io.out := 0.U
