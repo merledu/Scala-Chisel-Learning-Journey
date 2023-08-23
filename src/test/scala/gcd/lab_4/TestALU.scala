@@ -14,14 +14,14 @@ class TestALU extends FreeSpec with ChiselScalatestTester {
     test(new ALU1){ c =>
 
 // ALU operations
-    val array_op = Array ( ALU_ADD , ALU_SUB , ALU_AND , ALU_OR , ALU_XOR , ALU_SLT ,
-    ALU_SLL , ALU_SLTU , ALU_SRL , ALU_SRA , ALU_COPY_A , ALU_COPY_B , ALU_XXX )
+     val array_op = Array ( ALU_ADD , ALU_SUB , ALU_AND , ALU_OR , ALU_XOR , ALU_SLT ,
+    ALU_SLL , ALU_SLTU , ALU_SRL , ALU_SRA , ALU_COPY_A , ALU_COPY_B ,ALU_DIV ,ALU_DIVU,ALU_REM , ALU_REMU , ALU_MUL)
     for ( i <-0 until 100) {
-      val src_a = Random.nextInt(9999999) & 0xFFFFFFFFL
-      val src_b = Random.nextInt(9999999) & 0xFFFFFFFFL
-      val opr = 11
-      val aluop = array_op ( opr )
-          val result = aluop match {
+       val src_a = Random.nextInt(99999)& 0xFFFFFFFFL
+       val src_b =  Random.nextInt(99999)& 0xFFFFFFFFL
+       val opr = 14
+       val aluop = array_op ( opr )
+           val result = aluop match {
               case ALU_ADD => src_a + src_b
               case ALU_SUB => src_a - src_b
               case ALU_AND => src_a & src_b
@@ -34,6 +34,11 @@ class TestALU extends FreeSpec with ChiselScalatestTester {
               case ALU_SRA => src_a >> (src_b & 0x1F)
               case ALU_COPY_A => src_a
               case ALU_COPY_B => src_b
+              case ALU_REM => src_a % src_b
+              case ALU_MUL => src_a * src_b
+              case ALU_DIV => src_a / src_b
+              case ALU_DIVU =>(src_a / src_b)
+              case ALU_REMU => (src_a % src_b)
               case _ => 0
           }
         val result1: BigInt = if (result < 0)

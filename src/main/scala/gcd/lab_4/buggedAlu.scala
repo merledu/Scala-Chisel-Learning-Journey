@@ -17,12 +17,21 @@ object ALUOP {
     val ALU_SRA = 9.U(4.W)
     val ALU_COPY_A = 10.U(4.W)
     val ALU_COPY_B = 11.U(4.W)
-    val ALU_XXX = 12.U(4.W) 
+    val ALU_DIV = 12.U(4.W)
+    val ALU_DIVU = 13.U(4.W)
+    val ALU_REM = 14.U(4.W)
+    val ALU_REMU = 15.U(4.W)
+    val ALU_MUL = 16.U(5.W)
+
+
+
+
+
 }
 
 trait Config{
     val WLEN = 32
-    val ALUOP_SIG_LEN = 4
+    val ALUOP_SIG_LEN = 5
 }
 
 import ALUOP._
@@ -44,18 +53,28 @@ class ALU1 extends Module with Config {
     val shin = Mux(io.alu_Op(3), io.in_A, Reverse(io.in_A))
     val shiftr = (Cat(io.alu_Op(0) && shin(WLEN - 1), shin).asSInt >> shamt) (WLEN - 1, 0)
     val shitfl = Reverse(shiftr)
+    val div = io.in_A / io.in_B
+    val rem = io.in_A % io.in_B
+    val mul = io.in_A * io.in_B
 
-    val out = 
+
+
+    val out =
     Mux((io.alu_Op === ALU_ADD) || (io.alu_Op === ALU_SUB), sum,
-    Mux(io.alu_Op === ALU_SLT || io.alu_Op === ALU_SLTU, cmp, 
-    Mux(io.alu_Op === ALU_SRA || io.alu_Op === ALU_SRL,shiftr,
-    Mux(io.alu_Op === ALU_SLL, shitfl,
-    Mux(io.alu_Op === ALU_AND, (io.in_A & io.in_B),
-    Mux(io.alu_Op === ALU_OR, (io.in_A | io.in_B),
-    Mux(io.alu_Op === ALU_XOR, (io.in_A ^ io.in_B),
-    Mux(io.alu_Op === ALU_COPY_A, io.in_A, 
-    Mux(io.alu_Op === ALU_COPY_B, io.in_B, 0.U)))))))))
-
+        Mux(io.alu_Op === ALU_SLT || io.alu_Op === ALU_SLTU, cmp,
+            Mux(io.alu_Op === ALU_SRA || io.alu_Op === ALU_SRL,shiftr,
+                Mux(io.alu_Op === ALU_SLL, shitfl,
+                    Mux(io.alu_Op === ALU_AND, (io.in_A & io.in_B),
+                        Mux(io.alu_Op === ALU_OR, (io.in_A | io.in_B),
+                            Mux(io.alu_Op === ALU_XOR, (io.in_A ^ io.in_B),
+                                Mux(io.alu_Op === ALU_COPY_A, io.in_A,
+                                    Mux(io.alu_Op === ALU_COPY_B, io.in_B,
+                                        Mux(io.alu_Op === ALU_DIV, div,
+                                             Mux(io.alu_Op === ALU_DIV, div.asUInt(),
+                                                 Mux(io.alu_Op === ALU_DIVU, div.asUInt(),
+                                                    Mux(io.alu_Op === ALU_REM, rem ,
+                                                        Mux(io.alu_Op === ALU_REM, rem.asUInt() ,
+                                                             Mux(io.alu_Op === ALU_MUL, mul , 0.U)))))))))))))))
 
     io.out := out
     io.sum := sum
