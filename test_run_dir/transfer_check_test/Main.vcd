@@ -1,0 +1,143 @@
+$date
+2023-08-28T22:00+0000
+$end
+$version
+0.2
+$end
+$comment
+
+$end
+$timescale 1ns  $end
+$scope module Main $end
+ $var wire 1 $ io_busy $end
+ $var wire 1 ' txmodule $end
+ $var wire 1 ) io_tx $end
+ $var wire 1 - clock $end
+ $var wire 1 / rxmodule $end
+ $var wire 4 0 io_data $end
+ $var wire 1 7 reset $end
+  $scope module rxmodule $end
+   $var wire 1 & io_ready $end
+   $var wire 1 5 io_busy $end
+  $upscope $end
+  $scope module txmodule $end
+   $var wire 1 ! _T $end
+   $var wire 1 " clock $end
+   $var wire 2 # _GEN_10 $end
+   $var wire 4 % _GEN_5 $end
+   $var wire 1 ( io_ready $end
+   $var wire 2 * _GEN_1 $end
+   $var wire 2 + _GEN_4 $end
+   $var wire 1 , reset $end
+   $var wire 2 . _GEN_7 $end
+   $var wire 4 1 io_data $end
+   $var wire 1 2 readyI $end
+   $var wire 1 3 io_valid $end
+   $var wire 2 4 _GEN_6 $end
+   $var wire 4 6 _GEN_9 $end
+   $var wire 2 8 _GEN_0 $end
+   $var wire 2 9 currentState $end
+   $var wire 4 : _GEN_3 $end
+   $var wire 1 ; io_tx $end
+  $upscope $end
+$upscope $end
+$enddefinitions $end
+$dumpvars
+b00 .
+b0000 6
+0;
+0&
+05
+0-
+0'
+b0000 0
+0/
+b00 8
+b0000 1
+0!
+b00 *
+0(
+07
+0"
+b00 #
+0)
+b00 9
+b0000 :
+b00 +
+02
+b0000 %
+0,
+0$
+03
+b00 4
+$end
+#0
+1!
+1&
+1(
+17
+1,
+#1
+1-
+1"
+#6
+0-
+0"
+b01 8
+b01 #
+07
+0,
+#11
+0!
+1-
+1"
+b01 4
+b01 .
+12
+b01 *
+b01 9
+b01 +
+#16
+13
+0-
+0"
+b10 .
+0&
+b10 #
+15
+b10 *
+1$
+b1010 :
+0(
+1)
+1;
+#21
+1-
+1"
+b10 4
+02
+b10 9
+b10 +
+b0000 :
+#26
+0-
+0"
+#31
+1-
+1"
+#36
+03
+0-
+0"
+1&
+05
+0$
+1(
+0)
+0;
+#41
+1-
+1"
+12
+#46
+0-

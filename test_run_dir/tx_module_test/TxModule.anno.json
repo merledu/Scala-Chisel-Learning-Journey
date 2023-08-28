@@ -1,0 +1,29 @@
+[
+  {
+    "class":"firrtl.stage.FirrtlFileAnnotation",
+    "file":"test_run_dir\\tx_module_test\\TxModule.lo.fir"
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~TxModule|TxModule>io_valid",
+    "sources":[
+      "~TxModule|TxModule>io_tx"
+    ]
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~TxModule|TxModule>io_data",
+    "sources":[
+      "~TxModule|TxModule>io_valid",
+      "~TxModule|TxModule>io_tx"
+    ]
+  },
+  {
+    "class":"firrtl.EmitCircuitAnnotation",
+    "emitter":"firrtl.LowFirrtlEmitter"
+  },
+  {
+    "class":"firrtl.transforms.BlackBoxTargetDirAnno",
+    "targetDir":"test_run_dir\\tx_module_test"
+  }
+]

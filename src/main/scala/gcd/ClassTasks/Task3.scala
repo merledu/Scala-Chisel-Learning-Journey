@@ -4,35 +4,25 @@ package ClassTasks
 import chisel3._
 import chisel3.util._
 
-class Tx extends Module {
-  val io = IO(new Bundle {
-    val tx = Input(Bool())
-    val readyin = Input(Bool())
-    val valido = Output(Bool())
-    val datao = Output(UInt(4.W))
-  })
-
-  val State = RegInit(UInt(2.W))
-
-
-
-
-}
-
-class Rx extends Module{
-  val io = IO (new Bundle{
-    val validi = Input(Bool())
-    val datai = Input(UInt(4.W))
-    val busy = Input (Bool())
-    val readyo = Output(Bool())
-  })
-}
 
 class Main extends Module{
   val io = IO ( new Bundle {
-    val busyin = Input(Bool())
-    val txin = Input(Bool())
+    val busy = Input(Bool())
+    val tx = Input(Bool())
+    val data = Output(UInt(4.W))
   })
+
+  val rxmodule = Module(new RxModule)
+  val txmodule = Module(new TxModule)
+
+  txmodule.io.tx := io.tx
+  rxmodule.io.busy := io.busy
+
+  rxmodule.io.valid := txmodule.io.valid
+  rxmodule.io.data := txmodule.io.data
+  txmodule.io.ready := rxmodule.io.ready
+
+  io.data := txmodule.io.data
 
 
 
