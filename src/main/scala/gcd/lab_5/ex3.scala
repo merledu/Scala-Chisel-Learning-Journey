@@ -13,7 +13,7 @@ class Operator [ T <:Data ]( n : Int , generic : T ) ( op : (T , T ) =>T ) exten
 
   for (i <- 0 until n) {
     // Apply the 'op' function element-wise
-    outputVec(i) := (io.in(i))
+    outputVec(i) := (io.in.reduce(op))
   }
   io.out := outputVec
 }
