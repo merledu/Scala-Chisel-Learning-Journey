@@ -1,0 +1,56 @@
+$date
+2023-08-30T13:53+0000
+$end
+$version
+0.2
+$end
+$comment
+
+$end
+$timescale 1ns  $end
+$scope module shift_register $end
+ $var wire 4 ! io_out $end
+ $var wire 8 " _nextState_T $end
+ $var wire 4 # state $end
+ $var wire 1 $ clock $end
+ $var wire 8 % nextState $end
+ $var wire 4 & io_in $end
+ $var wire 1 ' reset $end
+$upscope $end
+$enddefinitions $end
+$dumpvars
+0'
+b00000000 %
+b00000000 "
+b0000 !
+0$
+b0000 &
+b0000 #
+$end
+#0
+1'
+#1
+1$
+#6
+b00001000 %
+b1000 &
+0'
+0$
+#11
+b1000 !
+b10001000 %
+b10000000 "
+b1000 #
+1$
+#16
+b10000000 %
+b0000 &
+0$
+#21
+b0000 !
+b00000000 %
+b00000000 "
+b0000 #
+1$
+#26
+0$
