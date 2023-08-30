@@ -1,0 +1,151 @@
+$date
+2023-08-30T15:46+0000
+$end
+$version
+0.2
+$end
+$comment
+
+$end
+$timescale 1ns  $end
+$scope module counter_with_xor $end
+ $var wire 3 ! io_out $end
+ $var wire 3 " _countbuffer_T_3 $end
+ $var wire 3 # countbuffer $end
+ $var wire 4 $ _countbuffer_T_2 $end
+ $var wire 3 % counter $end
+ $var wire 1 & clock $end
+ $var wire 1 ' _countbuffer_T_1 $end
+ $var wire 1 ( _countbuffer_T $end
+ $var wire 1 ) reset $end
+$upscope $end
+$enddefinitions $end
+$dumpvars
+b000 "
+b0000 $
+0)
+0&
+b000 #
+0'
+b000 %
+b000 !
+0(
+$end
+#0
+b001 "
+b001 #
+1'
+b0001 $
+1)
+#1
+1&
+#6
+0&
+0)
+#11
+b001 !
+b001 %
+b010 "
+1&
+b010 #
+b0010 $
+#16
+0&
+#21
+b010 !
+b010 %
+b011 "
+1&
+b011 #
+b0011 $
+#26
+0&
+#31
+b011 !
+b011 %
+b100 "
+1&
+b100 #
+b0100 $
+#36
+0&
+#41
+b100 !
+b100 %
+b101 "
+1&
+b000 #
+0'
+b0101 $
+1(
+#46
+0&
+#51
+b000 !
+b000 %
+b001 "
+1&
+b001 #
+1'
+b0001 $
+0(
+#56
+0&
+#61
+b001 !
+b001 %
+b010 "
+1&
+b010 #
+b0010 $
+#66
+0&
+#71
+b010 !
+b010 %
+b011 "
+1&
+b011 #
+b0011 $
+#76
+0&
+#81
+b011 !
+b011 %
+b100 "
+1&
+b100 #
+b0100 $
+#86
+0&
+#91
+b100 !
+b100 %
+b101 "
+1&
+b000 #
+0'
+b0101 $
+1(
+#96
+0&
+#101
+b000 !
+b000 %
+b001 "
+1&
+b001 #
+1'
+b0001 $
+0(
+#106
+0&
+#111
+b001 !
+b001 %
+b010 "
+1&
+b010 #
+b0010 $
+#116
+0&
