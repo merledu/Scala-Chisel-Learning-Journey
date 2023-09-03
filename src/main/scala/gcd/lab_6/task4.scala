@@ -24,6 +24,6 @@ class up_down_counter ( val max : Int = 10) extends Module {
     counter := counter - 1.U
   }
   io.out := counter
-  // End your code here
+
 
 }
