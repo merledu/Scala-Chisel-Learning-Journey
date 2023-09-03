@@ -10,7 +10,6 @@ class shift_register ( val init : Int = 0) extends Module {
   })
   val state = RegInit ( init.U (4.W ) ) // register initialization
   // serial data in at LSB
-
   val nextState = ( state << 4).asUInt() | io.in.asUInt()
 
   state := nextState

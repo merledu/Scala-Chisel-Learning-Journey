@@ -1,0 +1,28 @@
+[
+  {
+    "class":"firrtl.stage.FirrtlFileAnnotation",
+    "file":"test_run_dir\\lab_6_task_3\\shift_reg_with_parallel_load.lo.fir"
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~shift_reg_with_parallel_load|shift_reg_with_parallel_load>io_out_1",
+    "sources":[
+      "~shift_reg_with_parallel_load|shift_reg_with_parallel_load>io_load"
+    ]
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~shift_reg_with_parallel_load|shift_reg_with_parallel_load>io_out_0",
+    "sources":[
+      "~shift_reg_with_parallel_load|shift_reg_with_parallel_load>io_load"
+    ]
+  },
+  {
+    "class":"firrtl.EmitCircuitAnnotation",
+    "emitter":"firrtl.LowFirrtlEmitter"
+  },
+  {
+    "class":"firrtl.transforms.BlackBoxTargetDirAnno",
+    "targetDir":"test_run_dir\\lab_6_task_3"
+  }
+]

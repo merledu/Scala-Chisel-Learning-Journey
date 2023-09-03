@@ -1,0 +1,65 @@
+$date
+2023-09-03T21:37+0000
+$end
+$version
+0.2
+$end
+$comment
+
+$end
+$timescale 1ns  $end
+$scope module shift_reg_with_parallel_load $end
+ $var wire 1 ! _T $end
+ $var wire 2 " shfitreg $end
+ $var wire 1 # io_out_0 $end
+ $var wire 3 $ _nextState_T $end
+ $var wire 2 % _shfitreg_T $end
+ $var wire 1 & clock $end
+ $var wire 1 ' io_load $end
+ $var wire 1 ( io_load_in_1 $end
+ $var wire 3 ) nextState $end
+ $var wire 3 * _GEN_0 $end
+ $var wire 1 + io_out_1 $end
+ $var wire 1 , io_in $end
+ $var wire 1 - reset $end
+ $var wire 1 . io_load_in_0 $end
+$upscope $end
+$enddefinitions $end
+$dumpvars
+0&
+0-
+b000 *
+0'
+b000 $
+0.
+0!
+b00 "
+0(
+0#
+b00 %
+0+
+0,
+b000 )
+$end
+#0
+1-
+#1
+1&
+#6
+0-
+b11 %
+1.
+0&
+b011 *
+1'
+1(
+#11
+1!
+b11 "
+1&
+1#
+b110 $
+1+
+b110 )
+#16
+0&
