@@ -27,7 +27,7 @@ class DataPath extends Module {
   regfile.io.Rs2in := cu.io.Rs2
 
   alu.io.in_A := regfile.io.Rs1out
-  when(cu.io.Itype){
+  when(!cu.io.Instype ){
     alu.io.in_B := cu.io.Imm
   }
     .otherwise{

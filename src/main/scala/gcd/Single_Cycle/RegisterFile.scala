@@ -18,11 +18,13 @@ class RegisterFile  extends Module {
 
 
   when(io.Wen && (io.RD =/= 0.U)){
-    regFile(io.RD) := io.datain
+    regFile.write(io.RD,io.datain)
+    io.Rs1out := regFile.read(io.Rs1in)
+    io.Rs2out := regFile.read(io.Rs2in)
   }
     .otherwise{
-      io.Rs1out := regFile(io.Rs1in)
-      io.Rs2out := regFile(io.Rs2in)
+      io.Rs1out := regFile.read(io.Rs1in)
+      io.Rs2out := regFile.read(io.Rs2in)
 
     }
 

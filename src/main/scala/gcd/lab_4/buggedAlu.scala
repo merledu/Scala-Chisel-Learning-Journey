@@ -7,21 +7,21 @@ import chisel3.util._
 object ALUOP {
     val ALU_ADD = 0.U(4.W)
     val ALU_SUB = 1.U(4.W)
-    val ALU_AND = 2.U(4.W)
-    val ALU_OR  = 3.U(4.W)
-    val ALU_XOR = 4.U(4.W)
-    val ALU_SLT = 5.U(4.W)
-    val ALU_SLL = 6.U(4.W)
-    val ALU_SLTU= 7.U(4.W)
-    val ALU_SRL = 8.U(4.W)
-    val ALU_SRA = 9.U(4.W)
-    val ALU_COPY_A = 10.U(4.W)
-    val ALU_COPY_B = 11.U(4.W)
-    val ALU_DIV = 12.U(4.W)
-    val ALU_DIVU = 13.U(4.W)
-    val ALU_REM = 14.U(4.W)
-    val ALU_REMU = 15.U(4.W)
-    val ALU_MUL = 16.U(5.W)
+    val ALU_SLL = 2.U(4.W)
+    val ALU_SLT = 4.U(4.W)
+    val ALU_SLTU= 6.U(4.W)
+    val ALU_XOR = 8.U(4.W)
+    val ALU_SRL = 10.U(4.W)
+    val ALU_SRA = 11.U(4.W)
+    val ALU_OR  = 12.U(4.W)
+    val ALU_AND = 14.U(4.W)
+    val ALU_COPY_A = 13.U(4.W)
+    val ALU_COPY_B = 15.U(4.W)
+    val ALU_DIV = 3.U(4.W)
+    val ALU_DIVU = 5.U(4.W)
+    val ALU_REM = 7.U(4.W)
+    val ALU_REMU = 9.U(4.W)
+
 
 
 
@@ -31,7 +31,7 @@ object ALUOP {
 
 trait Config{
     val WLEN = 32
-    val ALUOP_SIG_LEN = 5
+    val ALUOP_SIG_LEN = 4
 }
 
 import ALUOP._
@@ -55,7 +55,6 @@ class ALU1 extends Module with Config {
     val shitfl = Reverse(shiftr)
     val div = io.in_A / io.in_B
     val rem = io.in_A % io.in_B
-    val mul = io.in_A * io.in_B
 
 
 
@@ -73,8 +72,7 @@ class ALU1 extends Module with Config {
                                              Mux(io.alu_Op === ALU_DIV, div.asUInt(),
                                                  Mux(io.alu_Op === ALU_DIVU, div.asUInt(),
                                                     Mux(io.alu_Op === ALU_REM, rem ,
-                                                        Mux(io.alu_Op === ALU_REM, rem.asUInt() ,
-                                                             Mux(io.alu_Op === ALU_MUL, mul , 0.U)))))))))))))))
+                                                        Mux(io.alu_Op === ALU_REM, rem.asUInt(),0.U))))))))))))))
 
     io.out := out
     io.sum := sum

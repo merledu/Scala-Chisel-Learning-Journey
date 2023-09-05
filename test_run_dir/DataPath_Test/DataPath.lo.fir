@@ -19,48 +19,45 @@ circuit DataPath :
     output io_Rs1 : UInt<5>
     output io_Rs2 : UInt<5>
     output io_Imm : UInt<32>
-    output io_Itype : UInt<1>
-    output io_Rtype : UInt<1>
+    output io_Instype : UInt<1>
     output io_RegWrite : UInt<1>
     output io_MemWrite : UInt<1>
     output io_func : UInt<5>
 
-    node Opcode = bits(io_ins, 6, 0) @[CU.scala 29:22]
-    node _T = eq(Opcode, UInt<6>("h33")) @[CU.scala 31:15]
-    node _io_RD_T = bits(io_ins, 11, 7) @[CU.scala 32:19]
-    node io_func_hi = bits(io_ins, 14, 12) @[CU.scala 33:26]
-    node io_func_lo = bits(io_ins, 31, 30) @[CU.scala 33:40]
+    node Opcode = bits(io_ins, 6, 0) @[CU.scala 27:22]
+    node _T = eq(Opcode, UInt<6>("h33")) @[CU.scala 29:15]
+    node _io_RD_T = bits(io_ins, 11, 7) @[CU.scala 30:19]
+    node io_func_hi = bits(io_ins, 14, 12) @[CU.scala 31:26]
+    node io_func_lo = bits(io_ins, 30, 30) @[CU.scala 31:40]
     node _io_func_T = cat(io_func_hi, io_func_lo) @[Cat.scala 30:58]
-    node _io_Rs1_T = bits(io_ins, 19, 15) @[CU.scala 34:21]
-    node _io_Rs2_T = bits(io_ins, 24, 20) @[CU.scala 35:21]
-    node _T_1 = eq(Opcode, UInt<5>("h13")) @[CU.scala 41:22]
-    node _io_RD_T_1 = bits(io_ins, 11, 7) @[CU.scala 42:21]
-    node _io_func_T_1 = bits(io_ins, 14, 12) @[CU.scala 43:24]
-    node _io_Rs1_T_1 = bits(io_ins, 19, 15) @[CU.scala 44:23]
-    node _io_Imm_T = bits(io_ins, 31, 20) @[CU.scala 45:23]
-    node _GEN_0 = mux(_T_1, _io_RD_T_1, UInt<1>("h0")) @[CU.scala 41:39 CU.scala 42:12 CU.scala 20:9]
-    node _GEN_1 = mux(_T_1, _io_func_T_1, UInt<1>("h0")) @[CU.scala 41:39 CU.scala 43:15 CU.scala 21:11]
-    node _GEN_2 = mux(_T_1, _io_Rs1_T_1, UInt<1>("h0")) @[CU.scala 41:39 CU.scala 44:14 CU.scala 22:10]
-    node _GEN_3 = mux(_T_1, _io_Imm_T, UInt<1>("h0")) @[CU.scala 41:39 CU.scala 45:14 CU.scala 28:10]
-    node _GEN_4 = mux(_T_1, UInt<1>("h1"), UInt<1>("h0")) @[CU.scala 41:39 CU.scala 46:19 CU.scala 24:15]
-    node _GEN_5 = mux(_T_1, UInt<1>("h0"), UInt<1>("h0")) @[CU.scala 41:39 CU.scala 47:19 CU.scala 25:15]
-    node _GEN_6 = mux(_T, _io_RD_T, _GEN_0) @[CU.scala 31:32 CU.scala 32:10]
-    node _GEN_7 = mux(_T, _io_func_T, _GEN_1) @[CU.scala 31:32 CU.scala 33:13]
-    node _GEN_8 = mux(_T, _io_Rs1_T, _GEN_2) @[CU.scala 31:32 CU.scala 34:12]
-    node _GEN_9 = mux(_T, _io_Rs2_T, UInt<1>("h0")) @[CU.scala 31:32 CU.scala 35:12 CU.scala 23:10]
-    node _GEN_10 = mux(_T, UInt<1>("h1"), _GEN_4) @[CU.scala 31:32 CU.scala 36:17]
-    node _GEN_11 = mux(_T, UInt<1>("h0"), _GEN_5) @[CU.scala 31:32 CU.scala 37:17]
-    node _GEN_12 = mux(_T, UInt<1>("h1"), _GEN_5) @[CU.scala 31:32 CU.scala 38:14]
-    node _GEN_13 = mux(_T, UInt<1>("h0"), _GEN_4) @[CU.scala 31:32 CU.scala 39:14]
-    node _GEN_14 = mux(_T, UInt<1>("h0"), _GEN_3) @[CU.scala 31:32 CU.scala 28:10]
+    node _io_Rs1_T = bits(io_ins, 19, 15) @[CU.scala 32:21]
+    node _io_Rs2_T = bits(io_ins, 24, 20) @[CU.scala 33:21]
+    node _T_1 = eq(Opcode, UInt<5>("h13")) @[CU.scala 39:22]
+    node _io_RD_T_1 = bits(io_ins, 11, 7) @[CU.scala 40:21]
+    node _io_func_T_1 = bits(io_ins, 14, 12) @[CU.scala 41:24]
+    node _io_Rs1_T_1 = bits(io_ins, 19, 15) @[CU.scala 42:23]
+    node _io_Imm_T = bits(io_ins, 31, 20) @[CU.scala 44:23]
+    node _GEN_0 = mux(_T_1, _io_RD_T_1, UInt<1>("h0")) @[CU.scala 39:39 CU.scala 40:12 CU.scala 51:13]
+    node _GEN_1 = mux(_T_1, _io_func_T_1, UInt<1>("h0")) @[CU.scala 39:39 CU.scala 41:15 CU.scala 52:15]
+    node _GEN_2 = mux(_T_1, _io_Rs1_T_1, UInt<1>("h0")) @[CU.scala 39:39 CU.scala 42:14 CU.scala 53:14]
+    node _GEN_3 = mux(_T_1, UInt<1>("h0"), UInt<1>("h0")) @[CU.scala 39:39 CU.scala 43:14 CU.scala 54:14]
+    node _GEN_4 = mux(_T_1, _io_Imm_T, UInt<1>("h0")) @[CU.scala 39:39 CU.scala 44:14 CU.scala 58:14]
+    node _GEN_5 = mux(_T_1, UInt<1>("h1"), UInt<1>("h0")) @[CU.scala 39:39 CU.scala 45:19 CU.scala 55:19]
+    node _GEN_6 = mux(_T, _io_RD_T, _GEN_0) @[CU.scala 29:32 CU.scala 30:10]
+    node _GEN_7 = mux(_T, _io_func_T, _GEN_1) @[CU.scala 29:32 CU.scala 31:13]
+    node _GEN_8 = mux(_T, _io_Rs1_T, _GEN_2) @[CU.scala 29:32 CU.scala 32:12]
+    node _GEN_9 = mux(_T, _io_Rs2_T, _GEN_3) @[CU.scala 29:32 CU.scala 33:12]
+    node _GEN_10 = mux(_T, UInt<1>("h0"), _GEN_4) @[CU.scala 29:32 CU.scala 34:12]
+    node _GEN_11 = mux(_T, UInt<1>("h1"), _GEN_5) @[CU.scala 29:32 CU.scala 35:17]
+    node _GEN_12 = mux(_T, UInt<1>("h0"), _GEN_3) @[CU.scala 29:32 CU.scala 36:17]
+    node _GEN_13 = mux(_T, UInt<1>("h1"), _GEN_3) @[CU.scala 29:32 CU.scala 37:16]
     io_RD <= _GEN_6
     io_Rs1 <= _GEN_8
     io_Rs2 <= _GEN_9
-    io_Imm <= _GEN_14
-    io_Itype <= _GEN_13
-    io_Rtype <= _GEN_12
-    io_RegWrite <= _GEN_10
-    io_MemWrite <= _GEN_11
+    io_Imm <= _GEN_10
+    io_Instype <= _GEN_13
+    io_RegWrite <= _GEN_11
+    io_MemWrite <= _GEN_12
     io_func <= _GEN_7
 
   module RegisterFile :
@@ -81,29 +78,39 @@ circuit DataPath :
       write-latency => 1
       reader => io_Rs1out_MPORT
       reader => io_Rs2out_MPORT
+      reader => io_Rs1out_MPORT_1
+      reader => io_Rs2out_MPORT_1
       writer => MPORT
       read-under-write => undefined
     node _T = neq(io_RD, UInt<1>("h0")) @[RegisterFile.scala 20:25]
     node _T_1 = and(io_Wen, _T) @[RegisterFile.scala 20:15]
-    node _GEN_0 = validif(_T_1, io_RD) @[RegisterFile.scala 20:34 RegisterFile.scala 21:12]
-    node _GEN_1 = validif(_T_1, clock) @[RegisterFile.scala 20:34 RegisterFile.scala 21:12]
-    node _GEN_2 = mux(_T_1, UInt<1>("h1"), UInt<1>("h0")) @[RegisterFile.scala 20:34 RegisterFile.scala 21:12 RegisterFile.scala 15:21]
-    node _GEN_3 = validif(_T_1, UInt<1>("h1")) @[RegisterFile.scala 20:34 RegisterFile.scala 21:20]
-    node _GEN_4 = validif(_T_1, io_datain) @[RegisterFile.scala 20:34 RegisterFile.scala 21:20]
-    node _GEN_5 = validif(eq(_T_1, UInt<1>("h0")), io_Rs1in) @[RegisterFile.scala 20:34 RegisterFile.scala 24:27]
-    node _GEN_6 = validif(eq(_T_1, UInt<1>("h0")), clock) @[RegisterFile.scala 20:34 RegisterFile.scala 24:27]
-    node _GEN_7 = mux(_T_1, UInt<1>("h0"), UInt<1>("h1")) @[RegisterFile.scala 20:34 RegisterFile.scala 15:21 RegisterFile.scala 24:27]
-    node _GEN_8 = mux(_T_1, UInt<1>("h0"), regFile.io_Rs1out_MPORT.data) @[RegisterFile.scala 20:34 RegisterFile.scala 16:13 RegisterFile.scala 24:17]
-    node _GEN_9 = validif(eq(_T_1, UInt<1>("h0")), io_Rs2in) @[RegisterFile.scala 20:34 RegisterFile.scala 25:27]
-    node _GEN_10 = mux(_T_1, UInt<1>("h0"), regFile.io_Rs2out_MPORT.data) @[RegisterFile.scala 20:34 RegisterFile.scala 17:13 RegisterFile.scala 25:17]
-    io_Rs1out <= _GEN_8
-    io_Rs2out <= _GEN_10
+    node _GEN_0 = validif(_T_1, io_RD) @[RegisterFile.scala 20:34]
+    node _GEN_1 = validif(_T_1, clock) @[RegisterFile.scala 20:34]
+    node _GEN_2 = mux(_T_1, UInt<1>("h1"), UInt<1>("h0")) @[RegisterFile.scala 20:34 RegisterFile.scala 15:21]
+    node _GEN_3 = validif(_T_1, UInt<1>("h1")) @[RegisterFile.scala 20:34]
+    node _GEN_4 = validif(_T_1, io_datain) @[RegisterFile.scala 20:34]
+    node _GEN_5 = validif(_T_1, io_Rs1in) @[RegisterFile.scala 20:34 RegisterFile.scala 22:30]
+    node _GEN_6 = mux(_T_1, regFile.io_Rs1out_MPORT.data, regFile.io_Rs1out_MPORT_1.data) @[RegisterFile.scala 20:34 RegisterFile.scala 22:15 RegisterFile.scala 26:17]
+    node _GEN_7 = validif(_T_1, io_Rs2in) @[RegisterFile.scala 20:34 RegisterFile.scala 23:30]
+    node _GEN_8 = mux(_T_1, regFile.io_Rs2out_MPORT.data, regFile.io_Rs2out_MPORT_1.data) @[RegisterFile.scala 20:34 RegisterFile.scala 23:15 RegisterFile.scala 27:17]
+    node _GEN_9 = validif(eq(_T_1, UInt<1>("h0")), io_Rs1in) @[RegisterFile.scala 20:34 RegisterFile.scala 26:32]
+    node _GEN_10 = validif(eq(_T_1, UInt<1>("h0")), clock) @[RegisterFile.scala 20:34 RegisterFile.scala 26:32]
+    node _GEN_11 = mux(_T_1, UInt<1>("h0"), UInt<1>("h1")) @[RegisterFile.scala 20:34 RegisterFile.scala 15:21 RegisterFile.scala 26:32]
+    node _GEN_12 = validif(eq(_T_1, UInt<1>("h0")), io_Rs2in) @[RegisterFile.scala 20:34 RegisterFile.scala 27:32]
+    io_Rs1out <= _GEN_6
+    io_Rs2out <= _GEN_8
     regFile.io_Rs1out_MPORT.addr <= _GEN_5
-    regFile.io_Rs1out_MPORT.en <= _GEN_7
-    regFile.io_Rs1out_MPORT.clk <= _GEN_6
-    regFile.io_Rs2out_MPORT.addr <= _GEN_9
-    regFile.io_Rs2out_MPORT.en <= _GEN_7
-    regFile.io_Rs2out_MPORT.clk <= _GEN_6
+    regFile.io_Rs1out_MPORT.en <= _GEN_2
+    regFile.io_Rs1out_MPORT.clk <= _GEN_1
+    regFile.io_Rs2out_MPORT.addr <= _GEN_7
+    regFile.io_Rs2out_MPORT.en <= _GEN_2
+    regFile.io_Rs2out_MPORT.clk <= _GEN_1
+    regFile.io_Rs1out_MPORT_1.addr <= _GEN_9
+    regFile.io_Rs1out_MPORT_1.en <= _GEN_11
+    regFile.io_Rs1out_MPORT_1.clk <= _GEN_10
+    regFile.io_Rs2out_MPORT_1.addr <= _GEN_12
+    regFile.io_Rs2out_MPORT_1.en <= _GEN_11
+    regFile.io_Rs2out_MPORT_1.clk <= _GEN_10
     regFile.MPORT.addr <= _GEN_0
     regFile.MPORT.en <= _GEN_2
     regFile.MPORT.clk <= _GEN_1
@@ -135,7 +142,7 @@ circuit DataPath :
     input reset : UInt<1>
     input io_in_A : UInt<32>
     input io_in_B : UInt<32>
-    input io_alu_Op : UInt<5>
+    input io_alu_Op : UInt<4>
     output io_out : UInt<32>
     output io_sum : UInt<32>
 
@@ -261,44 +268,42 @@ circuit DataPath :
     node _out_T = eq(io_alu_Op, UInt<4>("h0")) @[buggedAlu.scala 63:20]
     node _out_T_1 = eq(io_alu_Op, UInt<4>("h1")) @[buggedAlu.scala 63:47]
     node _out_T_2 = or(_out_T, _out_T_1) @[buggedAlu.scala 63:33]
-    node _out_T_3 = eq(io_alu_Op, UInt<4>("h5")) @[buggedAlu.scala 64:23]
-    node _out_T_4 = eq(io_alu_Op, UInt<4>("h7")) @[buggedAlu.scala 64:48]
+    node _out_T_3 = eq(io_alu_Op, UInt<4>("h4")) @[buggedAlu.scala 64:23]
+    node _out_T_4 = eq(io_alu_Op, UInt<4>("h6")) @[buggedAlu.scala 64:48]
     node _out_T_5 = or(_out_T_3, _out_T_4) @[buggedAlu.scala 64:35]
-    node _out_T_6 = eq(io_alu_Op, UInt<4>("h9")) @[buggedAlu.scala 65:27]
-    node _out_T_7 = eq(io_alu_Op, UInt<4>("h8")) @[buggedAlu.scala 65:52]
+    node _out_T_6 = eq(io_alu_Op, UInt<4>("hb")) @[buggedAlu.scala 65:27]
+    node _out_T_7 = eq(io_alu_Op, UInt<4>("ha")) @[buggedAlu.scala 65:52]
     node _out_T_8 = or(_out_T_6, _out_T_7) @[buggedAlu.scala 65:39]
-    node _out_T_9 = eq(io_alu_Op, UInt<4>("h6")) @[buggedAlu.scala 66:31]
-    node _out_T_10 = eq(io_alu_Op, UInt<4>("h2")) @[buggedAlu.scala 67:35]
+    node _out_T_9 = eq(io_alu_Op, UInt<4>("h2")) @[buggedAlu.scala 66:31]
+    node _out_T_10 = eq(io_alu_Op, UInt<4>("he")) @[buggedAlu.scala 67:35]
     node _out_T_11 = and(io_in_A, io_in_B) @[buggedAlu.scala 67:57]
-    node _out_T_12 = eq(io_alu_Op, UInt<4>("h3")) @[buggedAlu.scala 68:39]
+    node _out_T_12 = eq(io_alu_Op, UInt<4>("hc")) @[buggedAlu.scala 68:39]
     node _out_T_13 = or(io_in_A, io_in_B) @[buggedAlu.scala 68:60]
-    node _out_T_14 = eq(io_alu_Op, UInt<4>("h4")) @[buggedAlu.scala 69:43]
+    node _out_T_14 = eq(io_alu_Op, UInt<4>("h8")) @[buggedAlu.scala 69:43]
     node _out_T_15 = xor(io_in_A, io_in_B) @[buggedAlu.scala 69:65]
-    node _out_T_16 = eq(io_alu_Op, UInt<4>("ha")) @[buggedAlu.scala 70:47]
-    node _out_T_17 = eq(io_alu_Op, UInt<4>("hb")) @[buggedAlu.scala 71:51]
-    node _out_T_18 = eq(io_alu_Op, UInt<4>("hc")) @[buggedAlu.scala 72:55]
-    node _out_T_19 = eq(io_alu_Op, UInt<4>("hc")) @[buggedAlu.scala 73:60]
-    node _out_T_20 = eq(io_alu_Op, UInt<4>("hd")) @[buggedAlu.scala 74:64]
-    node _out_T_21 = eq(io_alu_Op, UInt<4>("he")) @[buggedAlu.scala 75:67]
-    node _out_T_22 = eq(io_alu_Op, UInt<4>("he")) @[buggedAlu.scala 76:71]
-    node _out_T_23 = eq(io_alu_Op, UInt<5>("h10")) @[buggedAlu.scala 77:76]
-    node _out_T_24 = mux(_out_T_23, mul, UInt<1>("h0")) @[buggedAlu.scala 77:65]
-    node _out_T_25 = mux(_out_T_22, rem, _out_T_24) @[buggedAlu.scala 76:60]
-    node _out_T_26 = mux(_out_T_21, rem, _out_T_25) @[buggedAlu.scala 75:56]
-    node _out_T_27 = mux(_out_T_20, div, _out_T_26) @[buggedAlu.scala 74:53]
-    node _out_T_28 = mux(_out_T_19, div, _out_T_27) @[buggedAlu.scala 73:49]
-    node _out_T_29 = mux(_out_T_18, div, _out_T_28) @[buggedAlu.scala 72:44]
-    node _out_T_30 = mux(_out_T_17, io_in_B, _out_T_29) @[buggedAlu.scala 71:40]
-    node _out_T_31 = mux(_out_T_16, io_in_A, _out_T_30) @[buggedAlu.scala 70:36]
-    node _out_T_32 = mux(_out_T_14, _out_T_15, _out_T_31) @[buggedAlu.scala 69:32]
-    node _out_T_33 = mux(_out_T_12, _out_T_13, _out_T_32) @[buggedAlu.scala 68:28]
-    node _out_T_34 = mux(_out_T_10, _out_T_11, _out_T_33) @[buggedAlu.scala 67:24]
-    node _out_T_35 = mux(_out_T_9, shitfl, _out_T_34) @[buggedAlu.scala 66:20]
-    node _out_T_36 = mux(_out_T_8, shiftr, _out_T_35) @[buggedAlu.scala 65:16]
-    node _out_T_37 = mux(_out_T_5, cmp, _out_T_36) @[buggedAlu.scala 64:12]
-    node out = mux(_out_T_2, sum, _out_T_37) @[buggedAlu.scala 63:8]
-    io_out <= bits(out, 31, 0) @[buggedAlu.scala 79:12]
-    io_sum <= sum @[buggedAlu.scala 80:12]
+    node _out_T_16 = eq(io_alu_Op, UInt<4>("hd")) @[buggedAlu.scala 70:47]
+    node _out_T_17 = eq(io_alu_Op, UInt<4>("hf")) @[buggedAlu.scala 71:51]
+    node _out_T_18 = eq(io_alu_Op, UInt<4>("h3")) @[buggedAlu.scala 72:55]
+    node _out_T_19 = eq(io_alu_Op, UInt<4>("h3")) @[buggedAlu.scala 73:60]
+    node _out_T_20 = eq(io_alu_Op, UInt<4>("h5")) @[buggedAlu.scala 74:64]
+    node _out_T_21 = eq(io_alu_Op, UInt<4>("h7")) @[buggedAlu.scala 75:67]
+    node _out_T_22 = eq(io_alu_Op, UInt<4>("h7")) @[buggedAlu.scala 76:71]
+    node _out_T_23 = mux(_out_T_22, rem, UInt<1>("h0")) @[buggedAlu.scala 76:60]
+    node _out_T_24 = mux(_out_T_21, rem, _out_T_23) @[buggedAlu.scala 75:56]
+    node _out_T_25 = mux(_out_T_20, div, _out_T_24) @[buggedAlu.scala 74:53]
+    node _out_T_26 = mux(_out_T_19, div, _out_T_25) @[buggedAlu.scala 73:49]
+    node _out_T_27 = mux(_out_T_18, div, _out_T_26) @[buggedAlu.scala 72:44]
+    node _out_T_28 = mux(_out_T_17, io_in_B, _out_T_27) @[buggedAlu.scala 71:40]
+    node _out_T_29 = mux(_out_T_16, io_in_A, _out_T_28) @[buggedAlu.scala 70:36]
+    node _out_T_30 = mux(_out_T_14, _out_T_15, _out_T_29) @[buggedAlu.scala 69:32]
+    node _out_T_31 = mux(_out_T_12, _out_T_13, _out_T_30) @[buggedAlu.scala 68:28]
+    node _out_T_32 = mux(_out_T_10, _out_T_11, _out_T_31) @[buggedAlu.scala 67:24]
+    node _out_T_33 = mux(_out_T_9, shitfl, _out_T_32) @[buggedAlu.scala 66:20]
+    node _out_T_34 = mux(_out_T_8, shiftr, _out_T_33) @[buggedAlu.scala 65:16]
+    node _out_T_35 = mux(_out_T_5, cmp, _out_T_34) @[buggedAlu.scala 64:12]
+    node out = mux(_out_T_2, sum, _out_T_35) @[buggedAlu.scala 63:8]
+    io_out <= out @[buggedAlu.scala 78:12]
+    io_sum <= sum @[buggedAlu.scala 79:12]
 
   module DataPath :
     input clock : Clock
@@ -310,7 +315,8 @@ circuit DataPath :
     inst regfile of RegisterFile @[DataPath.scala 15:23]
     inst insmem of InstMem @[DataPath.scala 16:22]
     inst alu of ALU1 @[DataPath.scala 18:19]
-    node _GEN_0 = mux(cu.io_Itype, cu.io_Imm, regfile.io_Rs2out) @[DataPath.scala 30:20 DataPath.scala 31:17 DataPath.scala 34:19]
+    node _T = eq(cu.io_Instype, UInt<1>("h0")) @[DataPath.scala 30:8]
+    node _GEN_0 = mux(_T, cu.io_Imm, regfile.io_Rs2out) @[DataPath.scala 30:24 DataPath.scala 31:17 DataPath.scala 34:19]
     io_out <= alu.io_out @[DataPath.scala 39:10]
     pc.clock <= clock
     pc.reset <= reset
@@ -331,4 +337,4 @@ circuit DataPath :
     alu.reset <= reset
     alu.io_in_A <= regfile.io_Rs1out @[DataPath.scala 29:15]
     alu.io_in_B <= _GEN_0
-    alu.io_alu_Op <= cu.io_func @[DataPath.scala 23:17]
+    alu.io_alu_Op <= bits(cu.io_func, 3, 0) @[DataPath.scala 23:17]
