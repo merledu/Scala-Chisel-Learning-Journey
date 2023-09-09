@@ -15,6 +15,7 @@ class Datamem extends Module {
 
   when (io.Wen){
     memory.write(io.addr,io.datain)
+    io.dataout := memory.read(io.addr)
   }
 
   io.dataout := memory.read(io.addr)

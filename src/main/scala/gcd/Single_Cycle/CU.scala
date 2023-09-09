@@ -10,10 +10,11 @@ class CU extends Module {
     val Rs1 = Output(UInt(5.W))
     val Rs2 = Output(UInt(5.W))
     val Imm = Output(UInt(32.W))
-    val Instype = Output(Bool())
+    val Instype = Output(Bool())  //Immidiate / Register select
     val RegWrite = Output(Bool())
     val MemWrite = Output(Bool())
     val func = Output(UInt(5.W))
+    val wbselect = Output(Bool())
 
   })
 //  io.RD := 0.U
@@ -26,7 +27,7 @@ class CU extends Module {
 //  io.Imm :=0.U
   val Opcode = io.ins(6,0)
 
-  when(Opcode === "b0110011".U){
+  when(Opcode === "b0110011".U){  // R type
     io.RD:= io.ins(11,7)
     io.func := Cat(io.ins(14,12),io.ins(30))
     io.Rs1 := io.ins(19,15)
@@ -35,8 +36,9 @@ class CU extends Module {
     io.RegWrite := true.B
     io.MemWrite := false.B
     io.Instype := true.B
+    io.wbselect := true.B
   }
-    .elsewhen(Opcode === "b0010011".U){
+    .elsewhen(Opcode === "b0010011".U){  // I type
       io.RD:= io.ins(11,7)
       io.func := io.ins(14,12)
       io.Rs1 := io.ins(19,15)
@@ -45,7 +47,31 @@ class CU extends Module {
       io.RegWrite := true.B
       io.MemWrite := false.B
       io.Instype := false.B
+      io.wbselect := true.B
 
+    }
+    .elsewhen(Opcode === "b0000011".U){  // Load
+      io.RD := io.ins(11, 7)
+      io.func := io.ins(14, 12)
+      io.Rs1 := io.ins(19, 15)
+      io.Rs2 := 0.U
+      io.Imm := io.ins(31, 20)
+      io.RegWrite := true.B
+      io.MemWrite := false.B
+      io.Instype := false.B
+      io.wbselect := false.B
+
+    }
+    .elsewhen(Opcode === "b0100011".U) { //store
+      io.RD := io.ins(11, 7)
+      io.func := 0.U
+      io.Rs1 := io.ins(19, 15)
+      io.Rs2 := io.ins(24,20)
+      io.Imm :=Cat(io.ins(4,0), io.ins(31, 25))
+      io.RegWrite := false.B
+      io.MemWrite := true.B
+      io.Instype := false.B
+      io.wbselect := false.B
     }
     .otherwise{
       io.RD := 0.U
@@ -56,6 +82,7 @@ class CU extends Module {
       io.MemWrite := false.B
       io.Instype := false.B
       io.Imm := 0.U
+      io.wbselect :=false.B
 
     }
 

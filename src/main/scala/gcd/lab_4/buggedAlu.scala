@@ -21,12 +21,6 @@ object ALUOP {
     val ALU_DIVU = 5.U(4.W)
     val ALU_REM = 7.U(4.W)
     val ALU_REMU = 9.U(4.W)
-
-
-
-
-
-
 }
 
 trait Config{
@@ -42,6 +36,8 @@ class ALUIO extends Bundle with Config {
     val alu_Op = Input(UInt(ALUOP_SIG_LEN.W))
     val out = Output(UInt(WLEN.W))
     val sum = Output(UInt(WLEN.W))
+    //val instype = Input(UInt (2.W)) //0=I,R ,S =1, L = 2 , B =3
+
 }
 
 class ALU1 extends Module with Config {
@@ -58,22 +54,24 @@ class ALU1 extends Module with Config {
 
 
 
-    val out =
-    Mux((io.alu_Op === ALU_ADD) || (io.alu_Op === ALU_SUB), sum,
-        Mux(io.alu_Op === ALU_SLT || io.alu_Op === ALU_SLTU, cmp,
-            Mux(io.alu_Op === ALU_SRA || io.alu_Op === ALU_SRL,shiftr,
-                Mux(io.alu_Op === ALU_SLL, shitfl,
-                    Mux(io.alu_Op === ALU_AND, (io.in_A & io.in_B),
-                        Mux(io.alu_Op === ALU_OR, (io.in_A | io.in_B),
-                            Mux(io.alu_Op === ALU_XOR, (io.in_A ^ io.in_B),
-                                Mux(io.alu_Op === ALU_COPY_A, io.in_A,
-                                    Mux(io.alu_Op === ALU_COPY_B, io.in_B,
-                                        Mux(io.alu_Op === ALU_DIV, div,
-                                             Mux(io.alu_Op === ALU_DIV, div.asUInt(),
-                                                 Mux(io.alu_Op === ALU_DIVU, div.asUInt(),
-                                                    Mux(io.alu_Op === ALU_REM, rem ,
-                                                        Mux(io.alu_Op === ALU_REM, rem.asUInt(),0.U))))))))))))))
+        io.out :=
+            Mux((io.alu_Op === ALU_ADD) || (io.alu_Op === ALU_SUB), sum,
+                Mux(io.alu_Op === ALU_SLT || io.alu_Op === ALU_SLTU, cmp,
+                    Mux(io.alu_Op === ALU_SRA || io.alu_Op === ALU_SRL, shiftr,
+                        Mux(io.alu_Op === ALU_SLL, shitfl,
+                            Mux(io.alu_Op === ALU_AND, (io.in_A & io.in_B),
+                                Mux(io.alu_Op === ALU_OR, (io.in_A | io.in_B),
+                                    Mux(io.alu_Op === ALU_XOR, (io.in_A ^ io.in_B),
+                                        Mux(io.alu_Op === ALU_COPY_A, io.in_A,
+                                            Mux(io.alu_Op === ALU_COPY_B, io.in_B,
+                                                Mux(io.alu_Op === ALU_DIV, div,
+                                                    Mux(io.alu_Op === ALU_DIV, div.asUInt(),
+                                                        Mux(io.alu_Op === ALU_DIVU, div.asUInt(),
+                                                            Mux(io.alu_Op === ALU_REM, rem,
+                                                                Mux(io.alu_Op === ALU_REM, rem.asUInt(), 0.U))))))))))))))
 
-    io.out := out
+
+
+
     io.sum := sum
 }
