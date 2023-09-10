@@ -52,8 +52,6 @@ class ALU1 extends Module with Config {
     val div = io.in_A / io.in_B
     val rem = io.in_A % io.in_B
 
-
-
         io.out :=
             Mux((io.alu_Op === ALU_ADD) || (io.alu_Op === ALU_SUB), sum,
                 Mux(io.alu_Op === ALU_SLT || io.alu_Op === ALU_SLTU, cmp,

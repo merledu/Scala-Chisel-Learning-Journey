@@ -20,7 +20,7 @@ class DataPath extends Module {
 
   insmem.io.addr := pc.io.nextaddr
   cu.io.ins := insmem.io.inst
-  alu.io.alu_Op := cu.io.func
+  alu.io.alu_Op := Mux(cu.io.aluselect,0.U,cu.io.func)
   regfile.io.Wen := cu.io.RegWrite
   datamem.io.Wen := cu.io.MemWrite
   regfile.io.RD := cu.io.RD
@@ -30,10 +30,16 @@ class DataPath extends Module {
   alu.io.in_A := regfile.io.Rs1out
   alu.io.in_B := Mux(!cu.io.Instype ,  cu.io.Imm, regfile.io.Rs2out)
   datamem.io.addr := alu.io.out
-  datamem.io.datain := regfile.io.Rs2out
-  regfile.io.datain := Mux(cu.io.wbselect, alu.io.out,datamem.io.dataout)
+  datamem.io.datain := Mux(cu.io.wbselect, regfile.io.Rs2out, MuxLookup(cu.io.lengthselect, 0.U, Array(
+    (0.U) -> regfile.io.Rs2out(8, 0),
+    (1.U) -> regfile.io.Rs2out(15, 0),
+    (2.U) -> regfile.io.Rs2out)))
 
 
+  regfile.io.datain := Mux(cu.io.wbselect, alu.io.out,MuxLookup(cu.io.lengthselect,0.U , Array(
+    (0.U) -> datamem.io.dataout(8,0),
+    (1.U) -> datamem.io.dataout(15,0),
+    (2.U) -> datamem.io.dataout)))
   io.out := alu.io.out
 
 
