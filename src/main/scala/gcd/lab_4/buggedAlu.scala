@@ -31,11 +31,11 @@ trait Config{
 import ALUOP._
 
 class ALUIO extends Bundle with Config {
-    val in_A = Input(UInt(WLEN.W))
-    val in_B = Input(UInt(WLEN.W))
+    val in_A = Input(SInt(WLEN.W))
+    val in_B = Input(SInt(WLEN.W))
     val alu_Op = Input(UInt(ALUOP_SIG_LEN.W))
-    val out = Output(UInt(WLEN.W))
-    val sum = Output(UInt(WLEN.W))
+    val out = Output(SInt(WLEN.W))
+    val sum = Output(SInt(WLEN.W))
     //val instype = Input(UInt (2.W)) //0=I,R ,S =1, L = 2 , B =3
 
 }
@@ -43,30 +43,32 @@ class ALUIO extends Bundle with Config {
 class ALU1 extends Module with Config {
     val io = IO(new ALUIO)
 
-    val sum = io.in_A + Mux(io.alu_Op(0), (-io.in_B) , io.in_B)
-    val cmp = Mux(io.in_A < io.in_B, 1.U, 0.U)
+    val sum = io.in_A +  io.in_B
+    val sub = io.in_A - io.in_B
+    val cmp = Mux(io.in_A < io.in_B, 1.S, 0.S)
+    val cmpU = Mux(io.in_A.asUInt() < io.in_B.asUInt(), 1.S, 0.S)
     val shamt = io.in_B(4, 0).asUInt
-    val shin = Mux(io.alu_Op(3), io.in_A, Reverse(io.in_A))
-    val shiftr = (Cat(io.alu_Op(0) && shin(WLEN - 1), shin).asSInt >> shamt) (WLEN - 1, 0)
-    val shitfl = Reverse(shiftr)
+    val shin = io.in_A
+    val shiftrl = io.in_A.asUInt() >> shamt//(Cat(io.alu_Op(0) && shin(WLEN - 1), shin).asSInt >> shamt) (WLEN - 1, 0)
+    val shitfl = io.in_A << shamt
+    val shiftrA = io.in_A >> shamt
     val div = io.in_A / io.in_B
     val rem = io.in_A % io.in_B
 
-        io.out :=
-            Mux((io.alu_Op === ALU_ADD) || (io.alu_Op === ALU_SUB), sum,
-                Mux(io.alu_Op === ALU_SLT || io.alu_Op === ALU_SLTU, cmp,
-                    Mux(io.alu_Op === ALU_SRA || io.alu_Op === ALU_SRL, shiftr,
-                        Mux(io.alu_Op === ALU_SLL, shitfl,
-                            Mux(io.alu_Op === ALU_AND, (io.in_A & io.in_B),
-                                Mux(io.alu_Op === ALU_OR, (io.in_A | io.in_B),
-                                    Mux(io.alu_Op === ALU_XOR, (io.in_A ^ io.in_B),
-                                        Mux(io.alu_Op === ALU_COPY_A, io.in_A,
-                                            Mux(io.alu_Op === ALU_COPY_B, io.in_B,
-                                                Mux(io.alu_Op === ALU_DIV, div,
-                                                    Mux(io.alu_Op === ALU_DIV, div.asUInt(),
-                                                        Mux(io.alu_Op === ALU_DIVU, div.asUInt(),
-                                                            Mux(io.alu_Op === ALU_REM, rem,
-                                                                Mux(io.alu_Op === ALU_REM, rem.asUInt(), 0.U))))))))))))))
+    io.out :=
+            Mux((io.alu_Op === ALU_ADD) , sum,
+                Mux((io.alu_Op === ALU_SUB), sub,
+                    Mux(io.alu_Op === ALU_SLT , cmp,
+                        Mux(io.alu_Op === ALU_SLTU, cmpU ,
+                            Mux(io.alu_Op === ALU_SRL, shiftrl.asSInt(),
+                                Mux(io.alu_Op === ALU_SRA, shiftrA.asSInt(),
+                                    Mux(io.alu_Op === ALU_SLL, shitfl.asSInt(),
+                                        Mux(io.alu_Op === ALU_AND, (io.in_A & io.in_B),
+                                            Mux(io.alu_Op === ALU_OR, (io.in_A | io.in_B),
+                                                 Mux(io.alu_Op === ALU_XOR, (io.in_A ^ io.in_B),
+                                                    Mux(io.alu_Op === ALU_COPY_A, io.in_A,
+                                                        Mux(io.alu_Op === ALU_COPY_B, io.in_B,0.S))))))))))))
+                                                                //Mux(io.alu_Op === ALU_REM, rem.asUInt(), 0.S))))))))))))))
 
 
 

@@ -6,9 +6,9 @@ import chisel3 . util . _
 
 class DataPath extends Module {
   val io = IO(new Bundle {
-    val out = Output(UInt(32.W))
+    val out = Output(SInt(32.W))
   })
-  io.out := 0.U
+  io.out := 0.S
 
   val pc = Module(new PC)
   val cu = Module(new CU)
@@ -29,17 +29,17 @@ class DataPath extends Module {
   datamem.io.datain := regfile.io.Rs2out
   alu.io.in_A := regfile.io.Rs1out
   alu.io.in_B := Mux(!cu.io.Instype ,  cu.io.Imm, regfile.io.Rs2out)
-  datamem.io.addr := alu.io.out
-  datamem.io.datain := Mux(cu.io.wbselect, regfile.io.Rs2out, MuxLookup(cu.io.lengthselect, 0.U, Array(
-    (0.U) -> regfile.io.Rs2out(8, 0),
-    (1.U) -> regfile.io.Rs2out(15, 0),
-    (2.U) -> regfile.io.Rs2out)))
+  datamem.io.addr := alu.io.out.asUInt()
+  datamem.io.datain := Mux(cu.io.wbselect, regfile.io.Rs2out, MuxLookup(cu.io.lengthselect, 0.S, Array(
+    (0.U) -> regfile.io.Rs2out(8, 0).asSInt(),
+    (1.U) -> regfile.io.Rs2out(15, 0).asSInt(),
+    (2.U) -> regfile.io.Rs2out.asSInt())))
 
 
-  regfile.io.datain := Mux(cu.io.wbselect, alu.io.out,MuxLookup(cu.io.lengthselect,0.U , Array(
-    (0.U) -> datamem.io.dataout(8,0),
-    (1.U) -> datamem.io.dataout(15,0),
-    (2.U) -> datamem.io.dataout)))
+  regfile.io.datain := Mux(cu.io.wbselect, alu.io.out,MuxLookup(cu.io.lengthselect,0.S , Array(
+    (0.U) -> datamem.io.dataout(8,0).asSInt(),
+    (1.U) -> datamem.io.dataout(15,0).asSInt(),
+    (2.U) -> datamem.io.dataout.asSInt())))
   io.out := alu.io.out
 
 

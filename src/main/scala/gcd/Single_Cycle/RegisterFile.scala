@@ -7,14 +7,14 @@ class RegisterFile  extends Module {
     val RD = Input(UInt(5.W))
     val Rs1in = Input(UInt(5.W))
     val Rs2in = Input(UInt(5.W))
-    val Rs1out = Output(UInt(32.W))
-    val Rs2out = Output(UInt(32.W))
-    val datain = Input(UInt(32.W))
+    val Rs1out = Output(SInt(32.W))
+    val Rs2out = Output(SInt(32.W))
+    val datain = Input(SInt(32.W))
   })
 
-  val regFile = Mem (32 , UInt(32.W ) )
-  io.Rs1out := 0.U
-  io.Rs2out := 0.U
+  val regFile = Mem (32 , SInt(32.W ) )
+  io.Rs1out := 0.S
+  io.Rs2out := 0.S
 
 
   when(io.Wen && (io.RD =/= 0.U)){
