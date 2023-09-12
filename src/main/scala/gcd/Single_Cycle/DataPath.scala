@@ -19,7 +19,7 @@ class DataPath extends Module {
   val checkbranch = Module(new BranchALU)
 
   val pc = RegInit(0.U(32.W))
-  pc := Mux(cu.io.pcselec,alu.io.out.asUInt(),pc+1.U)
+  pc := Mux(cu.io.pcselec,(alu.io.out).asUInt(),pc+1.U)
 
 
 
@@ -38,9 +38,10 @@ class DataPath extends Module {
   datamem.io.datain := regfile.io.Rs2out
   checkbranch.io.in_A := regfile.io.Rs1out
   checkbranch.io.in_B := regfile.io.Rs2out
+  regfile.io.datain := alu.io.out
 
-  alu.io.in_A := Mux(checkbranch.io.doBranch, pc.asSInt(), regfile.io.Rs1out)
-  alu.io.in_B := Mux(!cu.io.Instype ,  cu.io.Imm/4.S, regfile.io.Rs2out)
+  alu.io.in_A := Mux(checkbranch.io.doBranch || cu.io.jump , pc.asSInt(), regfile.io.Rs1out)
+  alu.io.in_B := Mux(!cu.io.Instype , cu.io.Imm , regfile.io.Rs2out)
   datamem.io.addr := alu.io.out.asUInt()
   datamem.io.datain := Mux(cu.io.wbselect, regfile.io.Rs2out, MuxLookup(cu.io.lengthselect, 0.S, Array(
     (0.U) -> regfile.io.Rs2out(8, 0).asSInt(),
@@ -48,7 +49,7 @@ class DataPath extends Module {
     (2.U) -> regfile.io.Rs2out.asSInt())))
 
 
-  regfile.io.datain := Mux(cu.io.wbselect, alu.io.out,MuxLookup(cu.io.lengthselect,0.S , Array(
+  regfile.io.datain :=  Mux(cu.io.wbselect , alu.io.out,MuxLookup(cu.io.lengthselect,0.S , Array(
     (0.U) -> datamem.io.dataout(8,0).asSInt(),
     (1.U) -> datamem.io.dataout(15,0).asSInt(),
     (2.U) -> datamem.io.dataout.asSInt())))

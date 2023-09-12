@@ -21,6 +21,7 @@ class CU extends Module {
     val btypefun = Output(UInt(4.W))
     val pcselec = Output(Bool())
     val btype = Output(Bool())
+    val jump = Output(Bool())
 
 
   })
@@ -36,6 +37,7 @@ class CU extends Module {
   val immgen = WireInit(0.U(20.W))
   io.btypefun := 0.U
   io.btype := 0.B
+  io.jump :=0.B
 
   when(Opcode === "b0110011".U){  // R type
     io.RD:= io.ins(11,7)
@@ -120,7 +122,7 @@ class CU extends Module {
       }.otherwise{
         immgen := Fill(19,0.U)
       }
-      io.Imm := Cat(immgen,io.ins(31),io.ins(7),io.ins(30,25),io.ins(11,8),0.U).asSInt()
+      io.Imm := ((Cat(immgen,io.ins(31),io.ins(7),io.ins(30,25),io.ins(11,8),0.U))>>2).asSInt()
       io.MemWrite := false.B
       io.RegWrite := false.B
       io.Instype := false.B
@@ -131,7 +133,30 @@ class CU extends Module {
 
       io.pcselec := Mux(io.dobranch && io.btype, true.B, false.B)
 
+    }.elsewhen(Opcode === "b1101111".U) {// jal
+    io.RD := io.ins(11,7)
+    when(io.ins(31).asBool()){
+      immgen := Fill(11,1.U)
+    }.otherwise{
+      immgen := Fill(11,0.U)
     }
+    io.Imm := Cat(immgen(10,0),io.ins(31),io.ins(19,12),io.ins(20),io.ins(29,21)).asSInt() >> 2
+    io.func := 0.U
+    io.Rs1 := 0.U
+    io.Rs2 := 0.U
+    io.MemWrite := false.B
+    io.RegWrite := true.B
+    io.Instype := false.B
+    io.lengthselect := 0.U
+    io.aluselect := true.B
+    io.wbselect := true.B
+    io.btype := 0.B
+    io.pcselec := 1.B
+    io.jump := 1.B
+
+
+  }
+
     .otherwise{
       io.RD := 0.U
       io.func := 0.U
@@ -145,6 +170,7 @@ class CU extends Module {
       io.aluselect := false.B
       io.lengthselect := 0.U
       io.pcselec := 0.B
+
 
 
     }
