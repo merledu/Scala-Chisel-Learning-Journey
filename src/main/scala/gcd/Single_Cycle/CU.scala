@@ -17,6 +17,11 @@ class CU extends Module {
     val wbselect = Output(Bool())
     val aluselect = Output(Bool()) // 1 when S type to perform addition / else 0
     val lengthselect = Output(UInt(2.W))
+    val dobranch = Input(Bool())
+    val btypefun = Output(UInt(4.W))
+    val pcselec = Output(Bool())
+    val btype = Output(Bool())
+
 
   })
 //  io.RD := 0.U
@@ -28,6 +33,9 @@ class CU extends Module {
 //  io.Instype := false.B
 //  io.Imm :=0.U
   val Opcode = io.ins(6,0)
+  val immgen = WireInit(0.U(20.W))
+  io.btypefun := 0.U
+  io.btype := 0.B
 
   when(Opcode === "b0110011".U){  // R type
     io.RD:= io.ins(11,7)
@@ -41,6 +49,9 @@ class CU extends Module {
     io.Instype := true.B
     io.wbselect := true.B
     io.lengthselect := 0.U
+    io.pcselec := 0.B
+
+
   }
     .elsewhen(Opcode === "b0010011".U){  // I type
       io.RD:= io.ins(11,7)
@@ -63,6 +74,7 @@ class CU extends Module {
       io.wbselect := true.B
       io.aluselect := false.B
       io.lengthselect := 0.U
+      io.pcselec := 0.B
 
 
     }
@@ -78,6 +90,7 @@ class CU extends Module {
       io.wbselect := true.B
       io.aluselect := false.B
       io.lengthselect := io.ins(13, 12)
+      io.pcselec := 0.B
 
     }
     .elsewhen(Opcode === "b0100011".U) { //store
@@ -92,7 +105,31 @@ class CU extends Module {
       io.wbselect := false.B
       io.aluselect := true.B
       io.lengthselect := io.ins(14, 12)
+      io.pcselec := 0.B
 
+
+    }
+    .elsewhen(Opcode === "b1100011".U){ // B type
+      io.func := 0.U
+      io.RD := 0.U
+      io.btypefun := io.ins(14, 12)
+      io.Rs1 := io.ins(19, 15)
+      io.Rs2 := io.ins(24, 20)
+      when(io.ins(31).asBool()){
+        immgen := Fill(19,1.U)
+      }.otherwise{
+        immgen := Fill(19,0.U)
+      }
+      io.Imm := Cat(immgen,io.ins(31),io.ins(7),io.ins(30,25),io.ins(11,8),0.U).asSInt()
+      io.MemWrite := false.B
+      io.RegWrite := false.B
+      io.Instype := false.B
+      io.lengthselect := 0.U
+      io.aluselect := true.B
+      io.wbselect := false.B
+      io.btype := 1.B
+
+      io.pcselec := Mux(io.dobranch && io.btype, true.B, false.B)
 
     }
     .otherwise{
@@ -107,6 +144,8 @@ class CU extends Module {
       io.wbselect :=false.B
       io.aluselect := false.B
       io.lengthselect := 0.U
+      io.pcselec := 0.B
+
 
     }
 

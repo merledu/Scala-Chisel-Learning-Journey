@@ -15,12 +15,13 @@ object ALUOP {
     val ALU_SRA = 11.U(4.W)
     val ALU_OR  = 12.U(4.W)
     val ALU_AND = 14.U(4.W)
-    val ALU_COPY_A = 13.U(4.W)
-    val ALU_COPY_B = 15.U(4.W)
-    val ALU_DIV = 3.U(4.W)
-    val ALU_DIVU = 5.U(4.W)
-    val ALU_REM = 7.U(4.W)
-    val ALU_REMU = 9.U(4.W)
+
+    val ALU_BEQ = 5.U(4.W)
+    val ALU_BLT = 3.U(4.W)
+    val ALU_BNE = 7.U(4.W)
+    val ALU_BGE = 9.U(4.W)
+    val ALU_BLTU = 13.U(4.W)
+    val ALU_BGEU = 15.U(4.W)
 }
 
 trait Config{
@@ -52,8 +53,11 @@ class ALU1 extends Module with Config {
     val shiftrl = io.in_A.asUInt() >> shamt//(Cat(io.alu_Op(0) && shin(WLEN - 1), shin).asSInt >> shamt) (WLEN - 1, 0)
     val shitfl = io.in_A << shamt
     val shiftrA = io.in_A >> shamt
-    val div = io.in_A / io.in_B
-    val rem = io.in_A % io.in_B
+    val beq = Mux(io.in_A === io.in_B,1.S,0.S)
+    val bge = (cmp | beq )
+    val bgeu = io.in_A.asUInt() >= io.in_B.asUInt()
+
+
 
     io.out :=
             Mux((io.alu_Op === ALU_ADD) , sum,
@@ -65,12 +69,7 @@ class ALU1 extends Module with Config {
                                     Mux(io.alu_Op === ALU_SLL, shitfl.asSInt(),
                                         Mux(io.alu_Op === ALU_AND, (io.in_A & io.in_B),
                                             Mux(io.alu_Op === ALU_OR, (io.in_A | io.in_B),
-                                                 Mux(io.alu_Op === ALU_XOR, (io.in_A ^ io.in_B),
-                                                    Mux(io.alu_Op === ALU_COPY_A, io.in_A,
-                                                        Mux(io.alu_Op === ALU_COPY_B, io.in_B,0.S))))))))))))
-                                                                //Mux(io.alu_Op === ALU_REM, rem.asUInt(), 0.S))))))))))))))
-
-
+                                                 Mux(io.alu_Op === ALU_XOR, (io.in_A ^ io.in_B),0.S))))))))))
 
 
     io.sum := sum
