@@ -14,7 +14,7 @@ class CU extends Module {
     val RegWrite = Output(Bool())
     val MemWrite = Output(Bool())
     val func = Output(UInt(5.W))
-    val wbselect = Output(Bool())
+    val wbselect = Output(UInt(2.W))
     val aluselect = Output(Bool()) // 1 when S type to perform addition / else 0
     val lengthselect = Output(UInt(2.W))
     val dobranch = Input(Bool())
@@ -69,7 +69,7 @@ class CU extends Module {
       ))
       io.Rs1 := io.ins(19,15)
       io.Rs2 := 0.U
-      io.Imm := io.ins(31,20).asSInt()
+      io.Imm := Cat(Fill(19,io.ins(31)),io.ins(31, 20)).asSInt()
       io.RegWrite := true.B
       io.MemWrite := false.B
       io.Instype := false.B
@@ -85,7 +85,7 @@ class CU extends Module {
       io.func := io.ins(14, 12)
       io.Rs1 := io.ins(19, 15)
       io.Rs2 := 0.U
-      io.Imm := io.ins(31, 20).asSInt()
+      io.Imm := Cat(Fill(19,io.ins(31)),io.ins(31, 20)).asSInt()
       io.RegWrite := true.B
       io.MemWrite := false.B
       io.Instype := false.B
@@ -100,7 +100,7 @@ class CU extends Module {
       io.func := 0.U
       io.Rs1 := io.ins(19, 15)
       io.Rs2 := io.ins(24,20)
-      io.Imm :=(Cat(io.ins(11,7),io.ins(31, 25))).asSInt()
+      io.Imm :=(Cat(Fill(19,io.ins(31)),io.ins(31, 25),io.ins(11,7))).asSInt()
       io.RegWrite := false.B
       io.MemWrite := true.B
       io.Instype := false.B
@@ -117,12 +117,7 @@ class CU extends Module {
       io.btypefun := io.ins(14, 12)
       io.Rs1 := io.ins(19, 15)
       io.Rs2 := io.ins(24, 20)
-      when(io.ins(31).asBool()){
-        immgen := Fill(19,1.U)
-      }.otherwise{
-        immgen := Fill(19,0.U)
-      }
-      io.Imm := ((Cat(immgen,io.ins(31),io.ins(7),io.ins(30,25),io.ins(11,8),0.U))>>2).asSInt()
+      io.Imm := ((Cat(Fill(19,io.ins(31)),io.ins(31),io.ins(7),io.ins(30,25),io.ins(11,8),0.U))>>2).asSInt()
       io.MemWrite := false.B
       io.RegWrite := false.B
       io.Instype := false.B
@@ -135,12 +130,7 @@ class CU extends Module {
 
     }.elsewhen(Opcode === "b1101111".U) {// jal
     io.RD := io.ins(11,7)
-    when(io.ins(31).asBool()){
-      immgen := Fill(11,1.U)
-    }.otherwise{
-      immgen := Fill(11,0.U)
-    }
-    io.Imm := Cat(immgen(10,0),io.ins(31),io.ins(19,12),io.ins(20),io.ins(29,21)).asSInt() >> 2
+    io.Imm := Cat(Fill(11,io.ins(31)),io.ins(31),io.ins(19,12),io.ins(20),io.ins(29,21)).asSInt() >> 2
     io.func := 0.U
     io.Rs1 := 0.U
     io.Rs2 := 0.U
@@ -148,14 +138,30 @@ class CU extends Module {
     io.RegWrite := true.B
     io.Instype := false.B
     io.lengthselect := 0.U
-    io.aluselect := true.B
-    io.wbselect := true.B
+    io.aluselect := false.B
+    io.wbselect := 2.U
     io.btype := 0.B
     io.pcselec := 1.B
     io.jump := 1.B
 
 
   }
+    .elsewhen(Opcode === "b1100111".U){ //jalr
+      io.Imm := Cat(Fill(11,io.ins(31)),io.ins(31,20)).asSInt()
+      io.Rs1 := io.ins(19,15)
+      io.func := (io.ins(14,12))
+      io.Rs2 := 0.U
+      io.RD := io.ins(11,7)
+      io.MemWrite := false.B
+      io.RegWrite := true.B
+      io.Instype := false.B
+      io.lengthselect := 0.U
+      io.aluselect := true.B
+      io.wbselect := true.B
+      io.btype := 0.B
+      io.pcselec := 1.B
+      io.jump := 0.B
+    }
 
     .otherwise{
       io.RD := 0.U
