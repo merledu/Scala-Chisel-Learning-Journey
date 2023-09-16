@@ -162,6 +162,39 @@ class CU extends Module {
       io.pcselec := 1.B
       io.jump := 0.B
     }
+    .elsewhen(Opcode === "b0110111".U){ //lui
+      io.Imm := Cat(io.ins(31,12),Fill(11 ,0.U ),0.U).asSInt()
+      io.func :=0.U
+      io.Rs2 := 0.U
+      io.Rs1 := 0.U
+      io.RD := io.ins(11,7)
+      io.MemWrite := false.B
+      io.RegWrite := true.B
+      io.Instype := false.B
+      io.lengthselect := 0.U
+      io.aluselect := true.B
+      io.wbselect := true.B
+      io.btype := 0.B
+      io.jump := 0.B
+      io.pcselec := 0.B
+    }
+    .elsewhen(Opcode === "b0010111".U) {
+      io.Imm := Cat(io.ins(31, 12), Fill(11, 0.U), 0.U).asSInt()
+      io.func := 0.U
+      io.Rs2 := 0.U
+      io.Rs1 := 0.U
+      io.RD := 0.U
+      io.MemWrite := false.B
+      io.RegWrite := false.B
+      io.Instype := false.B
+      io.lengthselect := 0.U
+      io.aluselect := true.B
+      io.wbselect := false.B
+      io.btype := 0.B
+      io.jump := 1.B
+      io.pcselec := 1.B
+    }
+
 
     .otherwise{
       io.RD := 0.U
