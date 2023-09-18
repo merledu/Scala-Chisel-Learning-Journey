@@ -10,7 +10,7 @@ class Datamem extends Module {
     val dataout = Output(SInt(32.W))
   })
 
-  val memory = Mem (32 , SInt(32.W ) )
+  val memory = Mem (1024 , SInt(32.W ) )
   io.dataout := 0.S
 
   when (io.Wen){

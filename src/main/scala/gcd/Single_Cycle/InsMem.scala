@@ -11,7 +11,7 @@ class InstMem ( initFile : String ) extends Module {
     val inst = Output(UInt(32.W))
   } )
 
-  val imem = Mem ( 32, UInt( 32.W ) )
+  val imem = Mem ( 1024, UInt( 32.W ) )
   loadMemoryFromFile ( imem , initFile )
-  io . inst := imem ( io . addr)
+  io . inst := imem ( io . addr/4.U)
 }

@@ -82,16 +82,16 @@ class CU extends Module {
     }
     .elsewhen(Opcode === "b0000011".U){  // Load
       io.RD := io.ins(11, 7)
-      io.func := io.ins(14, 12)
+      io.func := 0.U
       io.Rs1 := io.ins(19, 15)
       io.Rs2 := 0.U
       io.Imm := Cat(Fill(19,io.ins(31)),io.ins(31, 20)).asSInt()
       io.RegWrite := true.B
       io.MemWrite := false.B
       io.Instype := false.B
-      io.wbselect := true.B
+      io.wbselect := false.B
       io.aluselect := false.B
-      io.lengthselect := io.ins(13, 12)
+      io.lengthselect := io.ins(14, 12)
       io.pcselec := 0.B
 
     }
@@ -117,7 +117,7 @@ class CU extends Module {
       io.btypefun := io.ins(14, 12)
       io.Rs1 := io.ins(19, 15)
       io.Rs2 := io.ins(24, 20)
-      io.Imm := ((Cat(Fill(19,io.ins(31)),io.ins(31),io.ins(7),io.ins(30,25),io.ins(11,8),0.U))>>2).asSInt()
+      io.Imm := ((Cat(Fill(19,io.ins(31)),io.ins(31),io.ins(7),io.ins(30,25),io.ins(11,8),0.U))).asSInt()
       io.MemWrite := false.B
       io.RegWrite := false.B
       io.Instype := false.B
@@ -130,7 +130,7 @@ class CU extends Module {
 
     }.elsewhen(Opcode === "b1101111".U) {// jal
     io.RD := io.ins(11,7)
-    io.Imm := Cat(Fill(11,io.ins(31)),io.ins(31),io.ins(19,12),io.ins(20),io.ins(29,21)).asSInt() >> 2
+    io.Imm := ((Cat(Fill(11,io.ins(31)),io.ins(31),io.ins(19,12),io.ins(20),io.ins(30,21),0.U))).asSInt()
     io.func := 0.U
     io.Rs1 := 0.U
     io.Rs2 := 0.U
@@ -178,7 +178,7 @@ class CU extends Module {
       io.jump := 0.B
       io.pcselec := 0.B
     }
-    .elsewhen(Opcode === "b0010111".U) {
+    .elsewhen(Opcode === "b0010111".U) { //LUIPC
       io.Imm := Cat(io.ins(31, 12), Fill(11, 0.U), 0.U).asSInt()
       io.func := 0.U
       io.Rs2 := 0.U

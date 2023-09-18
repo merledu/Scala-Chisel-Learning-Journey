@@ -19,7 +19,7 @@ class DataPath extends Module {
   val checkbranch = Module(new BranchALU)
 
   val pc = RegInit(0.U(32.W))
-  pc := Mux(cu.io.pcselec,(alu.io.out).asUInt(),pc+1.U)
+  pc := Mux(cu.io.pcselec,(alu.io.out).asUInt(),pc+4.U)
 
 
 
@@ -58,7 +58,7 @@ class DataPath extends Module {
       (2.U) -> datamem.io.dataout.asSInt()))
   }
       .elsewhen(cu.io.wbselect === 2.U){
-        regfile.io.datain := (pc +1.U).asSInt()
+        regfile.io.datain := (pc +4.U).asSInt()
       }
   io.out := alu.io.out
 
