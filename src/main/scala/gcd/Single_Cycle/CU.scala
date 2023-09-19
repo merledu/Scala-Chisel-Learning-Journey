@@ -34,7 +34,6 @@ class CU extends Module {
 //  io.Instype := false.B
 //  io.Imm :=0.U
   val Opcode = io.ins(6,0)
-  val immgen = WireInit(0.U(20.W))
   io.btypefun := 0.U
   io.btype := 0.B
   io.jump :=0.B

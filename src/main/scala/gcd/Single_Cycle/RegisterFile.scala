@@ -12,19 +12,22 @@ class RegisterFile  extends Module {
     val datain = Input(SInt(32.W))
   })
 
-  val regFile = Mem (32 , SInt(32.W ) )
+  val regFile = Reg ( Vec ( 1024 , SInt ( 32.W ) ) )
+
   io.Rs1out := 0.S
   io.Rs2out := 0.S
 
+  regFile(0) := 0.S
+
 
   when(io.Wen && (io.RD =/= 0.U)){
-    regFile.write(io.RD,io.datain)
-    io.Rs1out := regFile.read(io.Rs1in)
-    io.Rs2out := regFile.read(io.Rs2in)
+    regFile(io.RD) := io.datain
+    io.Rs1out := regFile(io.Rs1in)
+    io.Rs2out := regFile(io.Rs2in)
   }
     .otherwise{
-      io.Rs1out := regFile.read(io.Rs1in)
-      io.Rs2out := regFile.read(io.Rs2in)
+      io.Rs1out := regFile(io.Rs1in)
+      io.Rs2out := regFile(io.Rs2in)
 
     }
 

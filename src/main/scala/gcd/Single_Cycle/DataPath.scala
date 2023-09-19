@@ -39,25 +39,24 @@ class DataPath extends Module {
   checkbranch.io.in_A := regfile.io.Rs1out
   checkbranch.io.in_B := regfile.io.Rs2out
   regfile.io.datain := alu.io.out
+  datamem.io.fun3 := cu.io.lengthselect
 
   alu.io.in_A := Mux(checkbranch.io.doBranch || cu.io.jump , pc.asSInt(), regfile.io.Rs1out)
   alu.io.in_B := Mux(!cu.io.Instype , cu.io.Imm , regfile.io.Rs2out)
   datamem.io.addr := alu.io.out.asUInt()
-  datamem.io.datain := Mux(cu.io.wbselect===1.U, regfile.io.Rs2out, MuxLookup(cu.io.lengthselect, 0.S, Array(
-    (0.U) -> regfile.io.Rs2out(8, 0).asSInt(),
-    (1.U) -> regfile.io.Rs2out(15, 0).asSInt(),
-    (2.U) -> regfile.io.Rs2out.asSInt())))
+  datamem.io.datain:= regfile.io.Rs2out
+  //Mux(cu.io.wbselect===1.U, regfile.io.Rs2out, regfile.io.Rs2out ) //MuxLookup(cu.io.lengthselect, 0.S, Array(
+//    (0.U) -> regfile.io.Rs2out(8, 0).asSInt(),
+//    (1.U) -> regfile.io.Rs2out(15, 0).asSInt(),
+//    (2.U) -> regfile.io.Rs2out.asSInt())))
 
 
     when(cu.io.wbselect === 1.U){
-    regfile.io.datain := alu.io.out}
+    regfile.io.datain := alu.io.out
+    }
     .elsewhen(cu.io.wbselect === 0.U) {
-    regfile.io.datain := MuxLookup(cu.io.lengthselect, 0.S, Array(
-      (0.U) -> datamem.io.dataout(8, 0).asSInt(),
-      (1.U) -> datamem.io.dataout(15, 0).asSInt(),
-      (2.U) -> datamem.io.dataout.asSInt()))
-  }
-      .elsewhen(cu.io.wbselect === 2.U){
+      regfile.io.datain := datamem.io.dataout
+    }.elsewhen(cu.io.wbselect === 2.U){
         regfile.io.datain := (pc +4.U).asSInt()
       }
   io.out := alu.io.out

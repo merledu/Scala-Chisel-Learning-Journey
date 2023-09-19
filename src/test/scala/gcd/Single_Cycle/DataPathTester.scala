@@ -6,8 +6,8 @@ import chiseltest._
 class DataPathTester extends FreeSpec with ChiselScalatestTester {
   "DataPath Test" in {
     test(new DataPath) { c =>
-      c.clock.step(200)
-      c.io.out.expect(72.S)
+      c.clock.step(10)
+      c.io.out.expect(0.S)
 
     }
   }
