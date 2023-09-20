@@ -114,11 +114,26 @@ class Datamem extends Module {
 
   }
   tempread := memory.read(io.addr(31, 2), 1.B)
-  when(io.fun3 === 0.U) {
-    io.dataout := Cat(Fill(24, tempread(0)(7)), tempread(0)).asSInt()
-  }.elsewhen(io.fun3 === 1.U) {
-    io.dataout := Cat(Fill(16, tempread(1)(7)), tempread(1), tempread(0)).asSInt()
-  }.elsewhen(io.fun3 === 2.U) {
+  when(io.fun3 === 0.U) {//LB
+    when(io.addr(1,0) === 0.U){
+    io.dataout := Cat(Fill(24,tempread(0)(7)),tempread(0)).asSInt()}
+    .elsewhen(io.addr(1,0)=== 1.U){
+    io.dataout := Cat(Fill(24,tempread(1)(7)),tempread(1)).asSInt()}
+    .elsewhen(io.addr(1,0)=== 2.U){
+    io.dataout := Cat(Fill(24,tempread(2)(7)),tempread(2)).asSInt()}
+    .elsewhen(io.addr(1,0)=== 3.U){
+    io.dataout := Cat(Fill(24,tempread(3)(7)),tempread(3)).asSInt()}
+
+  }.elsewhen(io.fun3 === 1.U) {//LH
+    when(io.addr(1,0) === 0.U){
+    io.dataout := Cat(Fill(16,tempread(0)(7)),tempread(0),tempread(1)).asSInt()}
+    .elsewhen(io.addr(1,0)=== 1.U){
+    io.dataout := Cat(Fill(16,tempread(1)(7)),tempread(1),tempread(2)).asSInt()}
+    .elsewhen(io.addr(1,0)=== 2.U){
+    io.dataout := Cat(Fill(16,tempread(2)(7)),tempread(2),tempread(3)).asSInt()}
+    .elsewhen(io.addr(1,0)=== 3.U){
+    io.dataout := Cat(Fill(24,tempread(3)(7)),tempread(3)).asSInt()}
+  }.elsewhen(io.fun3 === 2.U) { //lW
     io.dataout := Cat(tempread(3), tempread(2), tempread(1), tempread(0)).asSInt()
   }
 }
