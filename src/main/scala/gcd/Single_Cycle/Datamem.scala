@@ -9,9 +9,10 @@ class Datamem extends Module {
     val datain = Input(SInt(32.W))
     val dataout = Output(SInt(32.W))
     val fun3 = Input(UInt(3.W))
+    val enable = Input(Bool())
   })
 
-  val memory = SyncReadMem(1024, Vec(4, SInt(8.W)))
+  val memory = Mem(1024, Vec(4, SInt(8.W)))
   val mask = Wire(Vec(4, Bool()))
   val tempstore = Wire(Vec(4, SInt(8.W)))
   val tempread = Wire(Vec(4, SInt(8.W)))
@@ -22,6 +23,11 @@ class Datamem extends Module {
   tempstore(1) := io.datain(15, 8).asSInt()
   tempstore(2) := io.datain(23, 16).asSInt()
   tempstore(3) := io.datain(31, 24).asSInt()
+
+  tempread(0) := 0.S
+  tempread(1) := 0.S
+  tempread(2) := 0.S
+  tempread(3) := 0.S
 
   mask(0) := 0.B
   mask(1) := 0.B
@@ -108,12 +114,13 @@ class Datamem extends Module {
 
       }
 
-    memory.write(io.addr(31, 2), tempstore, mask)
-    tempread := memory.read(io.addr(31, 2), 1.B)
+    memory.write(io.addr(31, 2),tempstore,mask)
+    //tempread := memory.read(io.addr(31, 2), 1.B)
     //io.dataout := Cat(tempread(3), tempread(2), tempread(1), tempread(0)).asSInt()
 
   }
-  tempread := memory.read(io.addr(31, 2), 1.B)
+  when(io.enable){
+  tempread := memory.read(io.addr(31, 2))
   when(io.fun3 === 0.U) {//LB
     when(io.addr(1,0) === 0.U){
     io.dataout := Cat(Fill(24,tempread(0)(7)),tempread(0)).asSInt()}
@@ -133,8 +140,10 @@ class Datamem extends Module {
     io.dataout := Cat(Fill(16,tempread(2)(7)),tempread(2),tempread(3)).asSInt()}
     .elsewhen(io.addr(1,0)=== 3.U){
     io.dataout := Cat(Fill(24,tempread(3)(7)),tempread(3)).asSInt()}
+
   }.elsewhen(io.fun3 === 2.U) { //lW
     io.dataout := Cat(tempread(3), tempread(2), tempread(1), tempread(0)).asSInt()
   }
+}
 }
 

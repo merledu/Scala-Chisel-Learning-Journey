@@ -22,6 +22,7 @@ class CU extends Module {
     val pcselec = Output(Bool())
     val btype = Output(Bool())
     val jump = Output(Bool())
+    val readmem = Output(Bool())
 
 
   })
@@ -37,6 +38,7 @@ class CU extends Module {
   io.btypefun := 0.U
   io.btype := 0.B
   io.jump :=0.B
+  io.readmem := 0.B
 
   when(Opcode === "b0110011".U){  // R type
     io.RD:= io.ins(11,7)
@@ -92,6 +94,7 @@ class CU extends Module {
       io.aluselect := false.B
       io.lengthselect := io.ins(14, 12)
       io.pcselec := 0.B
+      io.readmem := 1.B
 
     }
     .elsewhen(Opcode === "b0100011".U) { //store

@@ -13,7 +13,7 @@ class DataPath extends Module {
   //val pc = Module(new PC)
   val cu = Module(new CU)
   val regfile = Module(new RegisterFile)
-  val insmem = Module(new InstMem("C:/Users/Hamza's Son/Desktop/DSA SEM2 Java project/Scala-Chisel-Learning-Journey/src/main/scala/gcd/Single_Cycle/Imem.txt"))
+  val insmem = Module(new InstMem("/home/saad/Desktop/MRAR/Scala-Chisel-Learning-Journey/src/main/scala/gcd/Single_Cycle/Imem.txt"))
   val datamem = Module(new Datamem)
   val alu = Module(new ALU1)
   val checkbranch = Module(new BranchALU)
@@ -40,6 +40,7 @@ class DataPath extends Module {
   checkbranch.io.in_B := regfile.io.Rs2out
   regfile.io.datain := alu.io.out
   datamem.io.fun3 := cu.io.lengthselect
+  datamem.io.enable := cu.io.readmem
 
   alu.io.in_A := Mux(checkbranch.io.doBranch || cu.io.jump , pc.asSInt(), regfile.io.Rs1out)
   alu.io.in_B := Mux(!cu.io.Instype , cu.io.Imm , regfile.io.Rs2out)
