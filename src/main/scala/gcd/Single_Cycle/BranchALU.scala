@@ -6,8 +6,8 @@ import chisel3.util._
 
 class BranchALU extends Module {
   val io = IO(new Bundle {
-    val in_A = Input(SInt(32.W))
-    val in_B = Input(SInt(32.W))
+    val in_A = Input(UInt(32.W))
+    val in_B = Input(UInt(32.W))
     val fun3 = Input(UInt(4.W))
     val doBranch = Output(Bool())
     val isBtype = Input(Bool())

@@ -6,9 +6,9 @@ import chisel3 . util . _
 
 class DataPath extends Module {
   val io = IO(new Bundle {
-    val out = Output(SInt(32.W))
+    val out = Output(UInt(32.W))
   })
-  io.out := 0.S
+  io.out := 0.U
 
   //val pc = Module(new PC)
   val cu = Module(new CU)
@@ -19,7 +19,7 @@ class DataPath extends Module {
   val checkbranch = Module(new BranchALU)
 
   val pc = RegInit(0.U(32.W))
-  pc := Mux(cu.io.pcselec,(alu.io.out).asUInt(),pc+4.U)
+  pc := Mux(cu.io.pcselec,(alu.io.out),pc+4.U)
 
 
 
@@ -42,9 +42,9 @@ class DataPath extends Module {
   datamem.io.fun3 := cu.io.lengthselect
   datamem.io.enable := cu.io.readmem
 
-  alu.io.in_A := Mux(checkbranch.io.doBranch || cu.io.jump , pc.asSInt(), regfile.io.Rs1out)
+  alu.io.in_A := Mux(checkbranch.io.doBranch || cu.io.jump , pc, regfile.io.Rs1out)
   alu.io.in_B := Mux(!cu.io.Instype , cu.io.Imm , regfile.io.Rs2out)
-  datamem.io.addr := alu.io.out.asUInt()
+  datamem.io.addr := alu.io.out
   datamem.io.datain:= regfile.io.Rs2out
   //Mux(cu.io.wbselect===1.U, regfile.io.Rs2out, regfile.io.Rs2out ) //MuxLookup(cu.io.lengthselect, 0.S, Array(
 //    (0.U) -> regfile.io.Rs2out(8, 0).asSInt(),
@@ -58,7 +58,7 @@ class DataPath extends Module {
     .elsewhen(cu.io.wbselect === 0.U) {
       regfile.io.datain := datamem.io.dataout
     }.elsewhen(cu.io.wbselect === 2.U){
-        regfile.io.datain := (pc +4.U).asSInt()
+        regfile.io.datain := (pc +4.U)
       }
   io.out := alu.io.out
 
