@@ -15,9 +15,11 @@ class Control extends Module{
         val operand_B_sel = Output (Bool())
         val extend_sel = Output (UInt(2.W))
         val next_pc_sel = Output (UInt(2.W))
+        val AMO_out = Output(Bool())
     })
 
     io.memtoReg := 0.U
+    io.AMO_out := 0.U
     //R
     when (io.opcode === 51.U){
         io.memwrite := 0.B 
@@ -135,6 +137,19 @@ class Control extends Module{
         io.extend_sel := 2.U
         io.next_pc_sel := 0.U
     }
+    .elsewhen(io.opcode === "b0101111".U) { // This encoding needs to be verified
+        io.memwrite := true.B
+        io.branch := 0.B
+        io.memRead := true.B
+        io.regWrite := true.B
+        io.memtoReg := true.B
+        io.aLUoperation := 0.U  
+        io.operand_A_sel := 0.U 
+        io.operand_B_sel := 0.U // Rs2 or immediate
+        io.extend_sel := 0.U  // Assuming no immediate
+        io.next_pc_sel := 0.U
+        io.AMO_out := 1.B
+    }
     .otherwise {
         io.memwrite := 0.U
         io.branch := 0.U
@@ -145,6 +160,7 @@ class Control extends Module{
         io.operand_A_sel := 0.U
         io.operand_B_sel := 0.U
         io.extend_sel := 0.U 
-        io.next_pc_sel := 0.U 
+        io.next_pc_sel := 0.U
+        io.AMO_out := 0.B 
     }
 }

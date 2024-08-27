@@ -27,7 +27,7 @@ class PipTop extends Module {
     dontTouch(DataMem_mod.io)
     val ImmGen_mod = Module(new ImmGen)
     dontTouch(ImmGen_mod.io)
-    val InstMem = Module(new InstMemory( "/home/laibakhan/Downloads/InstMem"))
+    val InstMem = Module(new InstMemory( "/home/laiba-khan/Downloads/InstMem"))
     dontTouch(InstMem.io)
     val JalR_mod = Module(new JalR)
     dontTouch(JalR_mod.io)
@@ -142,6 +142,7 @@ class PipTop extends Module {
     HazardDetection_mod.io.current_pc := IFID.io.mux_pc_out
 
     MEMWB.io.EXMEM_MEMRD := EXMEM.io.EXMEM_memRd_out
+    EXMEM.io.EXMEM_AMO_in := 1.U
 
     Branchforward_mod.io.ID_EX_RD := IDEX.io.rd_out
     Branchforward_mod.io.ID_EX_memRd := IDEX.io.ctrl_memRead_out
@@ -226,12 +227,22 @@ class PipTop extends Module {
         }
     }
     // ID_EX pipeline
+
     IDEX.io.rs1_in := RegFile_mod.io.Reg1
     IDEX.io.rs2_in := RegFile_mod.io.Reg2
+    when(Control_mod.io.AMO_out){
+        EXMEM.io.EXMEM_AMO_in := RegFile_mod.io.Reg1
+    }
+    .otherwise{
+        IDEX.io.rs1_in := RegFile_mod.io.Reg1
+    }
     IDEX.io.immm_in := a
     IDEX.io.fun3_in := IFID.io.mux_inst_out(14,12)
     IDEX.io.func7_in := IFID.io.mux_inst_out(30)
     IDEX.io.rd_in := IFID.io.mux_inst_out(11,7)
+
+    //Execute
+    ForwardingUnit.io.IDEX_rs1 := IDEX.io.rs1_out 
 
     //Execute
     ForwardingUnit.io.IDEX_rs1 := IDEX.io.rs1_out 
@@ -296,6 +307,7 @@ class PipTop extends Module {
     MEMWB.io.EXMEM_rd := EXMEM.io.EXMEM_rd_out
     DataMem_mod.io.Addr := EXMEM.io.EXMEM_alu_out.asUInt()
     DataMem_mod.io.DataIn := EXMEM.io.EXMEM_rs2_out
+    DataMem_mod.io.Addr := EXMEM.io.EXMEM_AMO_out
 
     RegFile_mod.io.write_Reg := MEMWB.io.MEMWB_rd_out
     RegFile_mod.io.Reg_write := MEMWB.io.MEMWB_reg_w_out
