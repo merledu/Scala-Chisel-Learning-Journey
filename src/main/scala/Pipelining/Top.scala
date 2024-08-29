@@ -87,8 +87,16 @@ class PipTop extends Module {
     Control_mod.io.opcode := IFID.io.mux_inst_out(6,0)
     ImmGen_mod.io.pc := IFID.io.mux_pc_out.asUInt
     ImmGen_mod.io.instr := IFID.io.mux_inst_out.asUInt()
-    RegFile_mod.io.Reg1 := Mux(Control_mod.io.opcode === 51.U || Control_mod.io.opcode === 19.U || Control_mod.io.opcode === 35.U || Control_mod.io.opcode === 3.U || Control_mod.io.opcode === 99.U || Control_mod.io.opcode === 103.U, IFID.io.mux_inst_out(19, 15), 0.U )
-    RegFile_mod.io.Reg2 := Mux(Control_mod.io.opcode === 51.U || Control_mod.io.opcode === 35.U || Control_mod.io.opcode === 99.U,IFID.io.mux_inst_out(24,20), 0.U)
+    
+    when (Control_mod.io.AMO_out){
+        RegFile_mod.io.Reg1 := IFID.io.mux_inst_out(19, 15)
+        RegFile_mod.io.Reg2 := IFID.io.mux_inst_out(24, 20)
+    }.otherwise{
+        RegFile_mod.io.Reg1 := Mux(Control_mod.io.opcode === 51.U || Control_mod.io.opcode === 19.U || Control_mod.io.opcode === 35.U || Control_mod.io.opcode === 3.U || Control_mod.io.opcode === 99.U || Control_mod.io.opcode === 103.U, IFID.io.mux_inst_out(19, 15), 0.U )
+        RegFile_mod.io.Reg2 := Mux(Control_mod.io.opcode === 51.U || Control_mod.io.opcode === 35.U || Control_mod.io.opcode === 99.U,IFID.io.mux_inst_out(24,20), 0.U)
+    }
+    
+    
     RegFile_mod.io.Reg_write := Control_mod.io.regWrite
 
 
@@ -142,7 +150,6 @@ class PipTop extends Module {
     HazardDetection_mod.io.current_pc := IFID.io.mux_pc_out
 
     MEMWB.io.EXMEM_MEMRD := EXMEM.io.EXMEM_memRd_out
-    EXMEM.io.EXMEM_AMO_in := 1.U
 
     Branchforward_mod.io.ID_EX_RD := IDEX.io.rd_out
     Branchforward_mod.io.ID_EX_memRd := IDEX.io.ctrl_memRead_out
@@ -227,22 +234,18 @@ class PipTop extends Module {
         }
     }
     // ID_EX pipeline
-
     IDEX.io.rs1_in := RegFile_mod.io.Reg1
     IDEX.io.rs2_in := RegFile_mod.io.Reg2
-    when(Control_mod.io.AMO_out){
-        EXMEM.io.EXMEM_AMO_in := RegFile_mod.io.Reg1
-    }
-    .otherwise{
-        IDEX.io.rs1_in := RegFile_mod.io.Reg1
+    when (Control_mod.io.AMO_out){
+        
+    }.otherwise{
+    //    IDEX.io.rs1_in := RegFile_mod.io.Reg1
+    //     IDEX.io.rs2_in := RegFile_mod.io.Reg2 
     }
     IDEX.io.immm_in := a
     IDEX.io.fun3_in := IFID.io.mux_inst_out(14,12)
     IDEX.io.func7_in := IFID.io.mux_inst_out(30)
     IDEX.io.rd_in := IFID.io.mux_inst_out(11,7)
-
-    //Execute
-    ForwardingUnit.io.IDEX_rs1 := IDEX.io.rs1_out 
 
     //Execute
     ForwardingUnit.io.IDEX_rs1 := IDEX.io.rs1_out 
@@ -254,6 +257,8 @@ class PipTop extends Module {
 
     IDEX.io.ctrl_OpA_in := Control_mod.io.operand_A_sel
     IDEX.io.IF_ID_pc4_in := IFID.io.pc4_out
+
+    
 
     //  Controlling Operand A for ALU
     when(IDEX.io.ctrl_OpA_out === "b10".U){
@@ -307,7 +312,6 @@ class PipTop extends Module {
     MEMWB.io.EXMEM_rd := EXMEM.io.EXMEM_rd_out
     DataMem_mod.io.Addr := EXMEM.io.EXMEM_alu_out.asUInt()
     DataMem_mod.io.DataIn := EXMEM.io.EXMEM_rs2_out
-    DataMem_mod.io.Addr := EXMEM.io.EXMEM_AMO_out
 
     RegFile_mod.io.write_Reg := MEMWB.io.MEMWB_rd_out
     RegFile_mod.io.Reg_write := MEMWB.io.MEMWB_reg_w_out
