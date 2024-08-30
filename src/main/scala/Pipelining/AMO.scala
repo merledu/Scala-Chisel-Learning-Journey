@@ -5,7 +5,11 @@ import chisel3.util._
 
 class AtomicOperations extends Module {
     val io = IO(new Bundle {
+<<<<<<< HEAD
         //val addr = Input(UInt(32.W))
+=======
+        val addr = Input(UInt(32.W))
+>>>>>>> 89e481d5c559b232a672fb36d60b384eb795bb1b
         val DataIn = Input(SInt(32.W))
         val DataIn2 = Input(SInt(32.W))
         val atomic_op = Input(UInt(4.W))  
@@ -21,7 +25,11 @@ class AtomicOperations extends Module {
         // storedValue := dataMemory.io.DataOut
         switch(io.atomic_op) {
             is(0.U) { // AMOSWAP.W
+<<<<<<< HEAD
                 newValue := io.DataIn2
+=======
+                newValue := io.DataIn 
+>>>>>>> 89e481d5c559b232a672fb36d60b384eb795bb1b
             }
             is(1.U) { // AMOADD.W
                 newValue := io.DataIn + io.DataIn2

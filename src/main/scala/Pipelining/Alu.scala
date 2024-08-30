@@ -43,6 +43,7 @@ class ALU extends Module with Config {
     val in_B = Input(SInt(WLEN.W))
     val alu_Op = Input(UInt(ALUOP_SIG_LEN.W))
     val out = Output(SInt(32.W))
+<<<<<<< HEAD
     val amo = Input(Bool())
 
 } )
@@ -53,6 +54,12 @@ class ALU extends Module with Config {
         io.out := io.in_A
     }.otherwise{
         io.out := 
+=======
+
+} )
+
+    val out = 
+>>>>>>> 89e481d5c559b232a672fb36d60b384eb795bb1b
     Mux(io.alu_Op === ALU_ADD || io.alu_Op === ALU_ADDI || io.alu_Op === ALU_LW || io.alu_Op === ALU_SW || io.alu_Op === ALU_LUI || io.alu_Op === ALU_AUIPC, (io.in_A + io.in_B),
     Mux(io.alu_Op === ALU_SLL || io.alu_Op === ALU_SLLI,(io.in_A.asUInt << io.in_B(18,0).asUInt).asSInt,
     Mux(io.alu_Op === ALU_SLT || io.alu_Op === ALU_SLTI, Mux(io.in_A < io.in_B, 1.S, 0.S),
@@ -64,6 +71,12 @@ class ALU extends Module with Config {
     Mux(io.alu_Op === ALU_SUB, (io.in_A - io.in_B),
     Mux(io.alu_Op === ALU_SRA || io.alu_Op === ALU_SRAI, (io.in_A.asUInt >> io.in_B(18,0).asUInt).asSInt,
     Mux(io.alu_Op === ALU_JAL || io.alu_Op === ALU_JALR, io.in_A,  0.S)))))))))))
+<<<<<<< HEAD
     }
     
+=======
+
+
+    io.out := out
+>>>>>>> 89e481d5c559b232a672fb36d60b384eb795bb1b
 }

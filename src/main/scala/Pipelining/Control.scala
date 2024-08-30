@@ -140,6 +140,7 @@ class Control extends Module{
 
     }
     .elsewhen(io.opcode === "b0101111".U) { 
+<<<<<<< HEAD
         // io.memwrite := true.B
         // io.branch := 0.B
         // io.memRead := 1.B
@@ -162,6 +163,30 @@ class Control extends Module{
         io.operand_B_sel := 1.B 
         io.extend_sel := 0.U 
         io.next_pc_sel := 0.U
+=======
+        io.memwrite := true.B
+        io.branch := 0.B
+        io.memRead := 1.B
+        io.regWrite := true.B
+        io.memtoReg := true.B
+        io.aLUoperation := 0.U  
+        io.operand_A_sel := 0.U 
+        io.operand_B_sel := 0.U 
+        io.extend_sel := 0.U  
+        io.next_pc_sel := 0.U
+        io.AMO_out := 1.B
+        //
+        // io.memwrite := 1.B 
+        // io.branch := 0.B 
+        // io.memRead := 0.B 
+        // io.regWrite := 0.B  
+        // io.memtoReg := 0.B 
+        // io.aLUoperation := 5.U  
+        // io.operand_A_sel := 0.U 
+        // io.operand_B_sel := 1.B 
+        // io.extend_sel := 1.U 
+        // io.next_pc_sel := 0.U
+>>>>>>> 89e481d5c559b232a672fb36d60b384eb795bb1b
     }
     .otherwise {
         io.memwrite := 0.U
