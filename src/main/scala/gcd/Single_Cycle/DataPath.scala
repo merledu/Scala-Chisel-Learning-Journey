@@ -1,6 +1,5 @@
 package Single_Cycle
 
-import lab_4.ALU1
 import chisel3 . _
 import chisel3 . util . _
 
@@ -19,7 +18,7 @@ class DataPath extends Module {
   val checkbranch = Module(new BranchALU)
 
   val pc = RegInit(0.U(32.W))
-  pc := Mux(cu.io.pcselec,(alu.io.out),pc+4.U)
+  pc := Mux(cu.io.pcselec,alu.io.out,pc+4.U)
 
 
 

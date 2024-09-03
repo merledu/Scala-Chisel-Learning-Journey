@@ -13,9 +13,10 @@ class BranchALU extends Module {
     val isBtype = Input(Bool())
   })
   val Beq = io.in_A === io.in_B
-  val blt = io.in_A < io.in_B
-  val bgeu = io.in_A.asUInt() >= io.in_B.asUInt()
-  val bltu = io.in_A.asUInt() < io.in_B.asUInt()
+  val blt = io.in_A.asSInt < io.in_B.asSInt
+  val bgeu = io.in_A >= io.in_B
+  val bltu = io.in_A < io.in_B
+  val bge =  io.in_A.asSInt >= io.in_B.asSInt
 
   when(io.isBtype === 1.B) {
     io.doBranch := Mux(io.fun3 === 0.U, Beq,
